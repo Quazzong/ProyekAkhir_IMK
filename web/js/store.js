@@ -38,3 +38,6 @@ export const unreadCount = userId => getState().notifications.filter(n => n.user
 // Draft pengajuan lintas halaman (jadwal, ruangan terpilih, filter)
 export const getDraft = () => getState().draft ?? {};
 export const patchDraft = patch => update(s => { s.draft = { ...s.draft, ...patch }; });
+// Toast (+ tab tujuan) lintas halaman, mis. setelah batal → pengajuan.html (Riwayat).
+export const setFlash = (message, tab = '') => update(s => { s.flash = { message, tab }; });
+export const popFlash = () => { const f = getState().flash ?? null; if (f) update(s => { delete s.flash; }); return f; };
