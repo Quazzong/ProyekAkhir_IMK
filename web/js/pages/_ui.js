@@ -22,13 +22,13 @@ document.getElementById('app').innerHTML = [
   section('Tab Aktif / Riwayat', `<div style="max-width:342px">${ui.tabs(['Aktif', 'Riwayat'], 'Aktif')}</div>`),
   section('Dialog & Snackbar & Filter', `<div class="d-flex flex-wrap gap-2">
     <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#m-batal">Dialog Batalkan</button>
-    <button class="btn btn-soft" data-bs-toggle="modal" data-bs-target="#m-tolak">Dialog keputusan (tolak)</button>
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#m-revisi-err">Keputusan + error catatan</button>
+    <button class="btn btn-soft" data-bs-toggle="modal" data-bs-target="#m-tolak">Panel hasil (tolak)</button>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#m-revisi-err">Panel hasil (setuju akhir)</button>
     <button class="btn btn-soft" id="t-btn">Snackbar</button>
     <button class="btn btn-soft" data-bs-toggle="offcanvas" data-bs-target="#sheet">Filter ruangan</button></div>`),
   ui.confirmModal({ id: 'm-batal', title: 'Batalkan Pengajuan?', body: 'Apakah Anda yakin ingin membatalkan pengajuan ini?', note: 'Pengajuan yang dibatalkan masuk ke riwayat.', cancel: 'Kembali', confirm: 'Ya, Batalkan' }),
-  ui.decisionModal({ id: 'm-tolak', title: 'Tolak pengajuan', confirm: 'Tolak' }),
-  ui.decisionModal({ id: 'm-revisi-err', title: 'Minta revisi', confirm: 'Kirim Permintaan Revisi', danger: false, error: 'Catatan wajib diisi.' }),
+  ui.resultModal({ id: 'm-tolak', href: '#', r: { tone: 'danger', title: 'Pengajuan ditolak.', lines: ['Sarpras menghentikan proses pada tahap 1.', '', 'Catatan: Kegiatan tidak sesuai izin peminjaman.', 'Pemohon menerima notifikasi keputusan.'], cta: 'Kembali ke Antrean' } }),
+  ui.resultModal({ id: 'm-revisi-err', href: '#', r: { tone: 'success', title: 'Peminjaman disetujui.', lines: ['Kabag Umum telah menyelesaikan persetujuan akhir.', '', 'RL-2026-0184 kini berstatus Disetujui.', 'Pemohon dan petugas keamanan gedung telah diberi notifikasi.'], cta: 'Lihat Status Pemohon' } }),
   ui.filterSheet({ id: 'sheet', jenis: ['Ruang Kelas', 'Ruang Seminar', 'Laboratorium', 'Ruang Rapat'], kapasitas: ['Kurang dari 25 orang', '25–50 orang', 'Lebih dari 50 orang'], jenisAktif: 'Ruang Seminar', kapasitasAktif: 'Lebih dari 50 orang' }),
   section('Bottom nav (3 tab + badge)', `<div class="position-relative" style="height:60px;max-width:430px">${ui.bottomNav([{ label: 'Kalender', icon: 'calendar3', href: '#', active: true }, { label: 'Pengajuan Saya', icon: 'file-earmark-text', href: '#' }, { label: 'Notifikasi', icon: 'bell', href: '#', count: 2 }]).replace('fixed-bottom', 'position-absolute bottom-0 w-100')}</div>`),
   section('Sidebar portal', `<div style="height:420px;overflow:hidden">${ui.sidebar({ role: 'Sarpras', active: 'Dasbor', items: [{ label: 'Dasbor', icon: 'grid', href: '#' }, { label: 'Pengajuan Masuk', icon: 'file-earmark-text', href: '#' }, { label: 'Riwayat Keputusan', icon: 'clock-history', href: '#' }, { label: 'Pengaturan', icon: 'gear', href: '#' }] })}</div>`),
