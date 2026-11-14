@@ -9,24 +9,33 @@ export const filterChip = (label, key = '') =>
   `<span class="badge badge-filter rounded-pill">${esc(label)} <button type="button" class="btn-close btn-close-sm ms-1" style="font-size:.5rem" aria-label="Hapus filter ${esc(label)}" data-chip="${esc(key)}"></button></span>`;
 
 // state: 'default' | 'loading' | 'disabled'; variant: primary | soft | danger
-export function button(label, { variant = 'primary', state = 'default', full = true, id = '' } = {}) {
+export function button(label, { variant = 'primary', state = 'default', full = true, id = '', type = 'button' } = {}) {
   const loading = state === 'loading';
-  return `<button type="button" ${id && `id="${id}"`} class="btn btn-${variant} ${full ? 'w-100' : ''} ${loading ? 'is-loading' : ''}" ${state !== 'default' ? 'disabled' : ''}>` +
+  return `<button type="${type}" ${id && `id="${id}"`} class="btn btn-${variant} ${full ? 'w-100' : ''} ${loading ? 'is-loading' : ''}" ${state !== 'default' ? 'disabled' : ''}>` +
     `${loading ? '<span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>' : ''}${esc(label)}</button>`;
 }
 
-export function field({ id, label, placeholder = '', required = false, value = '', error = '' }) {
-  return `<div class="mb-3"><label for="${id}" class="form-label fw-medium">${esc(label)}${required ? ' <span class="text-danger">*</span>' : ''}</label>` +
-    `<input id="${id}" class="form-control ${error ? 'is-invalid' : ''}" placeholder="${esc(placeholder)}" value="${esc(value)}">` +
-    `${error ? `<div class="invalid-feedback">${esc(error)}</div>` : ''}</div>`;
+const label = (id, text, required) => `<label for="${id}" class="form-label fw-medium">${esc(text)}${required ? ' <span class="text-danger">*</span>' : ''}</label>`;
+const feedback = error => `<div class="invalid-feedback">${esc(error)}</div>`;
+const hintHtml = hint => (hint ? `<div class="form-text">${esc(hint)}</div>` : '');
+
+export function field({ id, label: text, placeholder = '', required = false, value = '', error = '', hint = '', type = 'text', inputmode = '' }) {
+  return `<div class="mb-3">${label(id, text, required)}` +
+    `<input id="${id}" type="${type}" ${inputmode && `inputmode="${inputmode}"`} class="form-control ${error ? 'is-invalid' : ''}" placeholder="${esc(placeholder)}" value="${esc(value)}">` +
+    `${feedback(error)}${hintHtml(hint)}</div>`;
+}
+
+export function textarea({ id, label: text, placeholder = '', required = false, value = '', error = '', rows = 3 }) {
+  return `<div class="mb-3">${label(id, text, required)}` +
+    `<textarea id="${id}" rows="${rows}" class="form-control ${error ? 'is-invalid' : ''}" placeholder="${esc(placeholder)}">${esc(value)}</textarea>${feedback(error)}</div>`;
 }
 
 const opt = o => (typeof o === 'string' ? { value: o, label: o } : o);
 
-export function select({ id, label, options, placeholder = '', required = false, error = '', value = '' }) {
-  return `<div class="mb-3"><label for="${id}" class="form-label fw-medium">${esc(label)}${required ? ' <span class="text-danger">*</span>' : ''}</label>` +
+export function select({ id, label: text, options, placeholder = '', required = false, error = '', value = '' }) {
+  return `<div class="mb-3">${label(id, text, required)}` +
     `<select id="${id}" class="form-select ${error ? 'is-invalid' : ''}">${placeholder ? `<option value="">${esc(placeholder)}</option>` : ''}${options.map(opt).map(o => `<option value="${esc(o.value)}" ${o.value === value ? 'selected' : ''}>${esc(o.label)}</option>`).join('')}</select>` +
-    `${error ? `<div class="invalid-feedback">${esc(error)}</div>` : ''}</div>`;
+    `${feedback(error)}</div>`;
 }
 
 export const roomCard = ({ id = '', name, capacity, imageUrl = '', facilities = '' }) =>
@@ -37,15 +46,21 @@ export const roomCard = ({ id = '', name, capacity, imageUrl = '', facilities = 
   `<div class="small text-secondary">${esc(facilities)}</div>` +
   `<a href="#" class="btn btn-soft btn-sm mt-2 w-100">Pilih Ruangan <i class="bi bi-arrow-right"></i></a></div></div></div>`;
 
-export const requestCard = ({ id, room, dateTime, status, href = '#' }) =>
+// title (nama kegiatan) opsional: dengan title tampil + "Lihat Detail →".
+export const requestCard = ({ id, room, dateTime, status, href = '#', title = '' }) =>
   `<a href="${esc(href)}" class="card mb-3 text-decoration-none text-body"><div class="card-body">` +
   `<div class="d-flex justify-content-between align-items-start"><div class="fw-semibold">${esc(room)}</div>${statusChip(status)}</div>` +
-  `<div class="small text-secondary mt-1">${esc(id)} · ${esc(dateTime)}</div></div></a>`;
+  (title
+    ? `<div class="small text-secondary mt-1">${esc(dateTime)}</div><div class="small text-secondary">${esc(title)}</div><div class="small fw-semibold text-primary mt-2">Lihat Detail <i class="bi bi-arrow-right"></i></div>`
+    : `<div class="small text-secondary mt-1">${esc(id)} · ${esc(dateTime)}</div>`) +
+  `</div></a>`;
 
-export const notifCard = ({ title, body, time, unread = false }) =>
-  `<div class="card mb-2 ${unread ? 'border-primary-subtle' : ''}"><div class="card-body d-flex gap-2">` +
+// icon: nama bootstrap-icons; href: ketuk → detail.
+export const notifCard = ({ title, body, time, unread = false, icon = '', href = '' }) =>
+  `<${href ? `a href="${esc(href)}"` : 'div'} class="card mb-2 text-decoration-none text-body ${unread ? 'border-primary-subtle' : ''}"><div class="card-body d-flex gap-3">` +
+  (icon ? `<span class="rl-notif-icon"><i class="bi bi-${icon}"></i></span>` : '') +
   `<div class="flex-grow-1"><div class="fw-semibold small">${esc(title)}</div><div class="small text-secondary">${esc(body)}</div><div class="small text-secondary mt-1">${esc(time)}</div></div>` +
-  `${unread ? '<span class="rl-dot" role="img" aria-label="Belum dibaca"></span>' : ''}</div></div>`;
+  `${unread ? '<span class="rl-dot" role="img" aria-label="Belum dibaca"></span>' : ''}</div></${href ? 'a' : 'div'}>`;
 
 // steps: [{name, person, status, note}] — urutan = tahap 1..3
 export const stepper = steps => steps.map((s, i) =>
@@ -54,7 +69,7 @@ export const stepper = steps => steps.map((s, i) =>
   `<div class="small text-secondary">${esc(s.person)}</div><div class="small text-secondary">${esc(s.note ?? '')}</div></div></div>`).join('');
 
 export const tabs = (items, active) =>
-  `<ul class="nav nav-pills nav-fill gap-2 mb-3">${items.map(t => `<li class="nav-item"><a class="nav-link ${t === active ? 'active' : ''}" href="#">${esc(t)}</a></li>`).join('')}</ul>`;
+  `<ul class="nav nav-pills nav-fill gap-1 mb-3 rl-tabs">${items.map(t => `<li class="nav-item"><a class="nav-link ${t === active ? 'active' : ''}" href="#" data-tab="${esc(t)}">${esc(t)}</a></li>`).join('')}</ul>`;
 
 // items: [{label, icon, href, active, count}]
 export const bottomNav = items =>
@@ -71,13 +86,12 @@ export const confirmModal = ({ id, title, body, note = '', cancel, confirm, dang
   `<div class="modal-body"><h2 class="h5" id="${id}-t">${esc(title)}</h2><p class="text-secondary">${esc(body)}</p>${note ? `<p class="small text-secondary">${esc(note)}</p>` : ''}` +
   `<div class="d-grid gap-2"><button class="btn btn-soft" data-bs-dismiss="modal">${esc(cancel)}</button><button class="btn btn-${danger ? 'danger' : 'primary'}" data-role="confirm">${esc(confirm)}</button></div></div></div></div></div>`;
 
-// Keputusan penyetuju: catatan wajib untuk Revisi/Tolak.
-export const decisionModal = ({ id, title, confirm, danger = true, error = '' }) =>
-  `<div class="modal fade" id="${id}" tabindex="-1" aria-labelledby="${id}-t" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content p-3">` +
-  `<div class="modal-body"><h2 class="h5" id="${id}-t">${esc(title)}</h2>` +
-  `<label for="${id}-n" class="form-label fw-medium">Catatan <span class="text-danger">*</span></label>` +
-  `<textarea id="${id}-n" class="form-control ${error ? 'is-invalid' : ''}" rows="3"></textarea>${error ? `<div class="invalid-feedback">${esc(error)}</div>` : ''}` +
-  `<div class="d-grid gap-2 mt-3"><button class="btn btn-soft" data-bs-dismiss="modal">Kembali</button><button class="btn btn-${danger ? 'danger' : 'primary'}" data-role="confirm">${esc(confirm)}</button></div></div></div></div></div>`;
+// Panel hasil keputusan penyetuju. r: {tone, title, lines[], cta}; href = tujuan tombol.
+export const resultModal = ({ id, r, href }) =>
+  `<div class="modal fade" id="${id}" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="${id}-t" aria-hidden="true"><div class="modal-dialog modal-dialog-centered rl-modal-result"><div class="modal-content p-4">` +
+  `<div class="small fw-semibold text-${r.tone} mb-3">ROOMLINK &nbsp;/&nbsp; KEPUTUSAN PENGAJUAN</div>` +
+  `<h2 class="fs-3 fw-bold mb-4" id="${id}-t">${esc(r.title)}</h2><p class="text-secondary mb-4">${r.lines.map(esc).join('<br>')}</p>` +
+  `<a href="${esc(href)}" ${href === '#' ? 'data-bs-dismiss="modal"' : ''} class="btn btn-${r.tone === 'danger' ? 'primary' : r.tone} w-100 text-start">${esc(r.cta)}</a></div></div></div>`;
 
 // Filter ruangan: bottom sheet. jenis/kapasitas: string atau {value,label}; *Aktif = value terpilih.
 export const filterSheet = ({ id, jenis, kapasitas, jenisAktif = '', kapasitasAktif = '' }) =>
@@ -104,11 +118,20 @@ export const portalTable = (columns, rows) =>
   `<div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead class="table-light"><tr>${columns.map(c => `<th scope="col" class="small text-secondary">${esc(c)}</th>`).join('')}</tr></thead>` +
   `<tbody>${rows.map(r => `<tr>${r.map(c => `<td class="small">${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
 
-export const sidebar = ({ role, items, active }) =>
-  `<aside class="rl-sidebar d-flex flex-column p-3"><div class="fs-5 fw-bold mb-1"><i class="bi bi-building me-2"></i>RoomLink</div><div class="small mb-4 text-uppercase" style="opacity:.7">Portal Penyetuju</div>` +
-  `<div class="rounded-3 p-2 mb-3" style="background:rgba(255,255,255,.08)"><div class="fw-semibold">${esc(role)}</div></div>` +
-  `<ul class="nav flex-column gap-1 flex-grow-1">${items.map(i => `<li><a class="nav-link ${i.label === active ? 'active' : ''}" href="${esc(i.href)}"><i class="bi bi-${i.icon} me-2"></i>${esc(i.label)}</a></li>`).join('')}</ul>` +
-  `<a class="nav-link text-white" href="#" data-role="logout"><i class="bi bi-box-arrow-left me-2"></i>Keluar</a></aside>`;
+// level: 'Tingkat 1 dari 3  •  Aktif'. Item tanpa layar (Riwayat Keputusan, Pengaturan) = href '#'.
+export const sidebar = ({ role, level = '', items, active }) =>
+  `<aside class="rl-sidebar d-flex flex-column p-3"><div class="fs-4 fw-bold mb-1"><i class="bi bi-building me-2"></i>RoomLink</div><div class="small fw-semibold mb-4 text-uppercase rl-sidebar-muted">Portal Penyetuju</div>` +
+  `<div class="rounded-3 p-3 mb-4 rl-sidebar-role"><div class="fw-semibold">${esc(role)}</div>${level ? `<div class="small rl-sidebar-muted">${esc(level)}</div>` : ''}</div>` +
+  `<ul class="nav flex-column gap-2 flex-grow-1">${items.map(i => `<li><a class="nav-link py-2 ${i.label === active ? 'active' : ''}" href="${esc(i.href)}" ${i.label === active ? 'aria-current="page"' : ''}><i class="bi bi-${i.icon} me-2"></i>${esc(i.label)}</a></li>`).join('')}</ul>` +
+  `<hr class="rl-sidebar-muted"><a class="nav-link small mb-3 rl-sidebar-muted" href="#">Butuh bantuan?</a>` +
+  `<a class="nav-link" href="#" data-role="logout"><i class="bi bi-box-arrow-left me-2"></i>Keluar</a></aside>`;
+
+// Linimasa horizontal portal: steps [{name, status, sub}] urutan tahap 1..3.
+export const stepperH = steps =>
+  `<div class="card"><div class="card-body d-flex align-items-center gap-3">${steps.map((s, i) =>
+    `${i ? '<i class="bi bi-arrow-right fs-5 text-secondary mx-auto"></i>' : ''}<div class="d-flex align-items-center gap-3 flex-grow-1">` +
+    `<span class="rl-step-dot ${slug(s.status)}">${s.status === 'Disetujui' ? '<i class="bi bi-check-lg"></i>' : i + 1}</span>` +
+    `<div><div class="fw-semibold">${esc(s.name)}</div><div class="small ${s.status === 'Disetujui' ? 'text-success' : ['Ditolak', 'Perlu Revisi'].includes(s.status) ? 'text-danger' : 'text-secondary'}">${esc(s.sub)}</div></div></div>`).join('')}</div></div>`;
 
 export function showToast(message) {
   let box = document.getElementById('toast-box');

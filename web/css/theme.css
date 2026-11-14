@@ -37,7 +37,9 @@
   --rl-disabled-bg:#E2E8F0; --rl-disabled-fg:#64748B; --rl-disabled-day:#CBD5E1;
   --rl-neutral-bg:#F1F5F9;    /* nomor tahap belum aktif, Belum/Tidak diproses */
   --rl-chip-radius:7px;
-  --rl-ok-bg:#DCFCE7; --rl-ok-fg:#166534;
+  --rl-ok-bg:#DCFCE7; --rl-ok-fg:#166534; --rl-danger-bg:#FEE2E2;
+  --rl-warn-bg:#FEF3C7; --rl-warn-fg:#92400E;
+  --rl-sidebar-muted:#93C5FD; --rl-sidebar-role-bg:#1E3A8A;
 }
 .btn{--bs-btn-font-weight:600;--bs-btn-border-radius:12px;font-size:14px}
 .btn-danger{--bs-btn-bg:#DC2626;--bs-btn-border-color:#DC2626;--bs-btn-hover-bg:#B91C1C;--bs-btn-hover-border-color:#B91C1C;--bs-btn-active-bg:#991B1B;--bs-btn-active-border-color:#991B1B;--bs-btn-disabled-bg:#DC2626;--bs-btn-disabled-border-color:#DC2626}
