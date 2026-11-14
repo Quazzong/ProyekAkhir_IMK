@@ -1,0 +1,40 @@
+/* Hanya yang tidak ada di Bootstrap. */
+.app-shell{max-width:430px;margin-inline:auto;min-height:100vh;background:var(--bs-body-bg)}
+.portal-shell{min-width:1200px}
+
+/* Bottom nav: ikut lebar shell 430px */
+.bottom-nav{max-width:430px;margin-inline:auto;background:var(--bs-card-bg);border-top:1px solid var(--bs-border-color)}
+.bottom-nav .nav-link{min-height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;color:var(--bs-secondary-color);position:relative}
+.bottom-nav .nav-link.active{color:var(--bs-primary);font-weight:600}
+.bottom-nav .badge{position:absolute;top:6px;left:calc(50% + 6px)}
+
+/* Sel tanggal kalender */
+.rl-day{width:44px;height:44px;border:0;border-radius:var(--bs-border-radius);background:transparent;color:var(--bs-body-color);font-weight:600;font-size:14px}
+.rl-day.active{background:var(--bs-primary);color:var(--bs-card-bg)}
+.rl-day:disabled{color:var(--rl-disabled-day)}
+
+/* Linimasa persetujuan 3 tahap */
+.rl-step{position:relative;display:flex;gap:12px;padding-bottom:16px}
+.rl-step:not(:last-child)::before{content:"";position:absolute;left:13px;top:30px;bottom:2px;width:2px;background:var(--bs-border-color)}
+.rl-step-dot{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:600;background:var(--rl-neutral-bg);color:var(--bs-secondary-color)}
+.rl-step-dot.disetujui{background:var(--rl-ok-bg);color:var(--rl-ok-fg)}
+.rl-step-dot.menunggu{background:var(--rl-soft-bg);color:var(--bs-primary)}
+.rl-step-dot.ditolak,.rl-step-dot.perlu-revisi{background:var(--rl-soft-bg);color:var(--bs-danger)}
+
+/* Notifikasi: titik biru belum dibaca */
+.rl-dot{width:8px;height:8px;border-radius:50%;background:var(--bs-primary);flex:none}
+
+/* Sidebar portal penyetuju */
+.rl-sidebar{width:240px;flex:none;min-height:100vh;background:var(--rl-navy);color:var(--bs-card-bg)}
+.rl-sidebar .nav-link{color:var(--bs-border-color);border-radius:var(--bs-border-radius)}
+.rl-sidebar .nav-link.active{background:var(--bs-primary);color:var(--bs-card-bg)}
+
+/* Halaman pemohon dengan bottom nav */
+.app-shell.has-nav{padding:var(--rl-space-4) var(--rl-space-4) 88px}
+.bg-soft{background:var(--rl-soft-bg)}
+.rl-hero{background:var(--rl-navy);color:var(--bs-card-bg)}
+.rl-empty-icon{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;background:var(--rl-soft-bg);color:var(--bs-primary)}
+
+/* Grid kalender 7 kolom (Senin–Minggu) */
+.rl-cal{display:grid;grid-template-columns:repeat(7,1fr);justify-items:center;row-gap:4px}
+.rl-cal .rl-dow{font-size:12px;font-weight:600;color:var(--bs-secondary-color);padding-block:8px}
