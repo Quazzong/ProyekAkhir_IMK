@@ -27,7 +27,7 @@ function init() {
       <input id="q" class="form-control ps-5" placeholder="Cari nama kegiatan atau ID" aria-label="Cari nama kegiatan atau ID"></div></div>
     <div class="col-lg-auto"><select id="status" class="form-select form-select-sm w-auto border-0 bg-transparent text-primary fw-semibold ps-0 mb-2 mb-lg-3" aria-label="Filter status"></select></div>
     </div>
-    <div id="list" class="rl-fab-space"></div>
+    <div id="list" class="rl-fab-space rl-fade"></div>
     <a href="index.html" class="btn btn-primary rl-fab" aria-label="Buat pengajuan baru"><i aria-hidden="true" class="bi bi-plus-lg fs-5"></i></a>`;
 
   bindLogout('masuk.html');

@@ -16,10 +16,10 @@ export const seed = {
     { id: 'u9', name: 'Ilham Maulana', role: 'pemohon', login: 'ilham@kampus.ac.id', position: 'Mahasiswa', unit: 'UKM', unitFull: 'UKM' },
   ],
   rooms: [
-    { id: 'r1', name: 'Ruang Seminar', type: 'Ruang Seminar', capacity: 100, location: 'Gedung Utama, lantai 2', facilities: 'Proyektor · AC · Mikrofon' },
-    { id: 'r2', name: 'Ruang Kelas A', type: 'Ruang Kelas', capacity: 40, facilities: 'Proyektor · AC · Papan tulis' },
-    { id: 'r3', name: 'Ruang Lab Komputer', type: 'Laboratorium', capacity: 30, facilities: 'Komputer · Wi-Fi · AC' },
-    { id: 'r4', name: 'Ruang Rapat', type: 'Ruang Rapat', capacity: 15, facilities: 'Layar · Wi-Fi · AC' },
+    { id: 'r1', name: 'Ruang Seminar', type: 'Ruang Seminar', capacity: 100, location: 'Gedung Utama, lantai 2', facilities: 'Proyektor · AC · Mikrofon', description: 'Auditorium bertingkat dengan panggung, cocok untuk seminar dan acara besar.' },
+    { id: 'r2', name: 'Ruang Kelas A', type: 'Ruang Kelas', capacity: 40, facilities: 'Proyektor · AC · Papan tulis', description: 'Ruang kelas standar untuk perkuliahan, kelas pengganti, dan diskusi kelompok.' },
+    { id: 'r3', name: 'Ruang Lab Komputer', type: 'Laboratorium', capacity: 30, facilities: 'Komputer · Wi-Fi · AC', description: 'Laboratorium berisi 30 komputer untuk pelatihan dan praktikum.' },
+    { id: 'r4', name: 'Ruang Rapat', type: 'Ruang Rapat', capacity: 15, facilities: 'Layar · Wi-Fi · AC', description: 'Ruang rapat dengan meja panjang dan layar presentasi untuk rapat kecil.' },
   ],
   requests: [
     { id: 'RL-2026-0184', userId: 'u1', roomId: 'r1', date: '2026-11-20', start: '09:00', end: '11:00',

@@ -26,7 +26,7 @@ function init() {
         <option value="">Keputusan: Semua</option>${STATUSES.map(x => `<option value="${x}">Keputusan: ${x}</option>`).join('')}</select></div>
     </div></div>
     <h2 class="fs-5 fw-semibold mb-3" id="count"></h2>
-    <div class="card" id="table"></div>
+    <div class="card rl-fade" id="table"></div>
     <div class="d-flex justify-content-between align-items-center mt-3">
       <span class="small text-secondary" id="range"></span>
       <nav aria-label="Halaman"><ul class="pagination mb-0" id="pages"></ul></nav>

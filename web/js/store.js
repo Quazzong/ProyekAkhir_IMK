@@ -8,10 +8,14 @@ if (new URLSearchParams(location.search).has('reset')) localStorage.removeItem(K
 export function getState() {
   const raw = localStorage.getItem(KEY);
   if (raw) {
-    // Data lama dari versi sebelumnya: tambahkan akun seed yang belum ada (mis. Petugas Keamanan), data lain tidak disentuh.
+    // Data lama dari versi sebelumnya: tambahkan akun seed yang belum ada (mis. Petugas Keamanan); data kerja tidak disentuh.
     const s = JSON.parse(raw);
     const missing = seed.users.filter(u => !s.users.some(x => x.id === u.id));
-    if (missing.length) { s.users.push(...structuredClone(missing)); localStorage.setItem(KEY, JSON.stringify(s)); }
+    // Ruangan: lengkapi field baru (mis. description) tanpa menimpa nilai yang sudah ada.
+    let changed = missing.length > 0;
+    s.users.push(...structuredClone(missing));
+    for (const r of s.rooms) { const base = seed.rooms.find(x => x.id === r.id); for (const k in base ?? {}) if (!(k in r)) { r[k] = base[k]; changed = true; } }
+    if (changed) localStorage.setItem(KEY, JSON.stringify(s));
     return s;
   }
   const s = { ...structuredClone(seed), session: null, draft: null };

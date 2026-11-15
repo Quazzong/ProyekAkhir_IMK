@@ -27,11 +27,11 @@ function init() {
         <button type="button" class="btn btn-soft text-nowrap" id="today">Hari ini</button>
       </div>
     </div>
-    <div class="row row-cols-3 g-4 mb-4" id="stats"></div>
+    <div class="row row-cols-3 g-4 mb-4 rl-fade" id="stats"></div>
     <div class="d-flex justify-content-between align-items-end mb-3">
       <div><h2 class="fs-4 fw-semibold mb-1" id="title"></h2><p class="small text-secondary mb-0" id="count"></p></div>
     </div>
-    <div class="card" id="table"></div>`;
+    <div class="card rl-fade" id="table"></div>`;
 
   function render() {
     const s = getState();

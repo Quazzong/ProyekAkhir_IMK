@@ -47,13 +47,44 @@ export const roomPhoto = (roomId, cls) => roomId
   ? `<img src="${new URL(`${roomId}.jpg`, PHOTOS)}" alt="" class="${cls} object-fit-cover">`
   : `<div class="${cls}"><i aria-hidden="true" class="bi bi-building"></i></div>`;
 
-export const roomCard = ({ id = '', name, capacity, facilities = '' }) =>
-  `<div class="card mb-3" ${id ? `data-room="${esc(id)}"` : ''}><div class="card-body d-flex gap-3">` +
-  roomPhoto(id, 'rl-photo rl-photo-xs') +
-  `<div class="flex-grow-1"><div class="fw-semibold">${esc(name)}</div>` +
-  `<div class="small text-secondary">${capacity} orang · <span class="text-success-emphasis">Tersedia</span></div>` +
-  `<div class="small text-secondary">${esc(facilities)}</div>` +
-  `<a href="#" class="btn btn-soft btn-sm mt-2 w-100">Pilih Ruangan <i aria-hidden="true" class="bi bi-arrow-right"></i></a></div></div></div>`;
+// Kartu ruangan: foto penuh; hover (mouse) atau tap/Enter menaikkan panel putih bertepi ombak: pekat di balik teks, lalu bergradasi
+// memudar mengikuti lekuk ombak (mask pada .rl-room-panel, satu layer).
+// Tombol .rl-room-toggle menutupi kartu (tap/keyboard); pemilihan hanya lewat [data-pick]. Perilaku diikat oleh bindRoomCards().
+export const roomCard = ({ id = '', name, capacity, facilities = '', location = '', description = '' }) => {
+  const pid = `room-panel-${esc(id || 'demo')}`;
+  return `<article class="card rl-room mb-3" ${id ? `data-room="${esc(id)}"` : ''}>` +
+  roomPhoto(id, 'rl-room-photo') +
+  `<div class="rl-room-cap" aria-hidden="true"><div class="fw-semibold fs-5">${esc(name)}</div>` +
+  `<div class="small">${capacity} orang · <span class="rl-room-ok">Tersedia</span></div></div>` +
+  `<button type="button" class="rl-room-toggle" aria-expanded="false" aria-controls="${pid}"><span class="visually-hidden">Lihat detail ${esc(name)}</span></button>` +
+  `<div class="rl-room-panel" id="${pid}">` +
+  `<div class="d-flex justify-content-between align-items-start gap-2"><h2 class="fs-6 fw-semibold mb-1">${esc(name)}</h2><span class="badge badge-status badge-disetujui">Tersedia</span></div>` +
+  `<div class="small text-secondary">${[`${capacity} orang`, location].filter(Boolean).map(esc).join(' · ')}</div>` +
+  `<div class="small text-secondary mb-1">${esc(facilities)}</div>` +
+  (description ? `<p class="small mb-2">${esc(description)}</p>` : '') +
+  `<a href="ajukan.html" class="btn btn-primary btn-sm w-100 mt-auto" data-pick>Pilih Ruangan <i aria-hidden="true" class="bi bi-arrow-right"></i></a>` +
+  `</div></article>`;
+};
+
+// Satu panel terbuka sekaligus. Tap/klik kartu = buka/tutup, Esc = tutup, klik di luar = tutup.
+export function bindRoomCards(root, onPick) {
+  const set = (card, open) => {
+    card.classList.toggle('is-open', open);
+    card.querySelector('.rl-room-toggle').setAttribute('aria-expanded', String(open));
+  };
+  const closeAll = except => root.querySelectorAll('.rl-room.is-open').forEach(c => c !== except && set(c, false));
+  root.addEventListener('click', e => {
+    const card = e.target.closest('.rl-room');
+    if (!card) return closeAll();
+    if (e.target.closest('[data-pick]')) { e.preventDefault(); onPick(card.dataset.room); return; }
+    if (e.target.closest('.rl-room-toggle')) { closeAll(card); set(card, !card.classList.contains('is-open')); }
+  });
+  root.addEventListener('keydown', e => {
+    const card = e.target.closest('.rl-room.is-open');
+    if (e.key === 'Escape' && card) { set(card, false); card.querySelector('.rl-room-toggle').focus(); }
+  });
+  document.addEventListener('click', e => { if (!root.contains(e.target)) closeAll(); });
+}
 
 // title (nama kegiatan) opsional: dengan title tampil + "Lihat Detail →".
 export const requestCard = ({ id, room, dateTime, status, href = '#', title = '' }) =>

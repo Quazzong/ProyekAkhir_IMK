@@ -15,7 +15,7 @@ document.getElementById('app').innerHTML = [
   section('Chip status pengajuan & tahap', `<div class="d-flex flex-wrap gap-2 mb-2">${S.map(ui.statusChip).join('')}</div><div class="d-flex flex-wrap gap-2">${T.map(ui.statusChip).join('')}</div>`),
   section('Chip filter aktif', ui.filterChip('Ruang Seminar', 'jenis') + ' ' + ui.filterChip('>50 orang', 'kap')),
   section('Tanggal (default / terpilih / nonaktif)', `<div class="d-flex gap-2">${ui.dayCell(18)}${ui.dayCell(18, 'selected')}${ui.dayCell(18, 'disabled')}</div>`),
-  section('Kartu ruangan', `<div style="max-width:342px">${ui.roomCard({ name: 'Ruang Seminar', capacity: 100, facilities: 'Proyektor · AC · Mikrofon' })}</div>`),
+  section('Kartu ruangan', `<div style="max-width:342px">${ui.roomCard({ id: 'r1', name: 'Ruang Seminar', capacity: 100, location: 'Gedung Utama, lantai 2', facilities: 'Proyektor · AC · Mikrofon', description: 'Auditorium bertingkat dengan panggung, cocok untuk seminar dan acara besar.' })}</div>`),
   section('Kartu pengajuan', `<div style="max-width:342px">${ui.requestCard({ id: 'RL-2026-0184', room: 'Ruang Seminar', dateTime: '18 Nov 2026, 09.00–11.00', status: 'Menunggu' })}</div>`),
   section('Kartu notifikasi (belum dibaca / dibaca)', `<div style="max-width:342px">${ui.notifCard({ title: 'Pengajuan disetujui Kabag Umum', body: 'Ruang Seminar siap digunakan.', time: '11.00 WIB', unread: true })}${ui.notifCard({ title: 'Pengajuan disetujui Kabag Umum', body: 'Ruang Seminar siap digunakan.', time: '11.00 WIB' })}</div>`),
   section('Linimasa persetujuan', `<div style="max-width:342px">${ui.stepper(steps)}</div>`),
@@ -43,3 +43,5 @@ document.getElementById('app').innerHTML = [
 // Katalog: konfirmasi keluar tampil, tapi tombol Keluar di dialog ini mengakhiri sesi bila ada.
 ui.bindLogout('masuk.html');
 document.getElementById('t-btn').onclick = () => ui.showToast('Pengajuan berhasil dibatalkan.');
+// Katalog: panel kartu ruangan bisa dibuka; "Pilih Ruangan" tidak berpindah halaman.
+ui.bindRoomCards(document.body, () => ui.showToast('Ruangan dipilih.'));

@@ -37,7 +37,7 @@ function init() {
       <h2 class="fs-5 fw-semibold mb-0" id="count"></h2>
       <button type="button" class="btn btn-link btn-sm text-secondary text-decoration-none" id="sort"></button>
     </div>
-    <div class="card" id="table"></div>
+    <div class="card rl-fade" id="table"></div>
     <div class="d-flex justify-content-between align-items-center mt-3">
       <span class="small text-secondary" id="range"></span>
       <nav aria-label="Halaman"><ul class="pagination mb-0" id="pages"></ul></nav>

@@ -1,7 +1,7 @@
 import { requireSession, getState, getDraft, patchDraft, unreadCount } from '../store.js';
 import { availableRooms } from '../domain/availability.js';
 import { formatDateWithDay, formatRange } from '../domain/dates.js';
-import { roomCard, filterChip, filterSheet, emptyState, mainNav } from '../ui/components.js';
+import { roomCard, bindRoomCards, filterChip, filterSheet, emptyState, mainNav } from '../ui/components.js';
 
 const JENIS = ['Ruang Kelas', 'Ruang Seminar', 'Laboratorium', 'Ruang Rapat'];
 const KAP = [
@@ -27,7 +27,7 @@ function init() {
       <h1 class="h5 fw-bold mb-0">Ruangan tersedia</h1>
     </header>
     <p class="small text-secondary mb-3">${formatDateWithDay(slot.date)} &nbsp;•&nbsp; ${formatRange(slot.start, slot.end)}</p>
-    <div id="list"></div>`;
+    <div id="list" class="rl-fade"></div>`;
 
   function openSheet() {
     $('sheet-box').innerHTML = filterSheet({ id: 'sheet', jenis: JENIS, kapasitas: KAP, jenisAktif: filter.type, kapasitasAktif: filter.capacity, placement: matchMedia('(min-width: 992px)').matches ? 'end' : 'bottom' });
@@ -63,14 +63,13 @@ function init() {
   }
 
   $('list').onclick = e => {
-    const room = e.target.closest('[data-room]');
     const chip = e.target.closest('[data-chip]');
     const act = e.target.closest('[data-act]')?.dataset.act;
     if (chip) { filter = { ...filter, [chip.dataset.chip]: '' }; patchDraft(filter); render(); }
     else if (act === 'reset') { filter = { type: '', capacity: '' }; patchDraft(filter); render(); }
     else if (act === 'filter') openSheet();
-    else if (room) { e.preventDefault(); patchDraft({ roomId: room.dataset.room }); location.href = 'ajukan.html'; }
   };
 
+  bindRoomCards($('list'), roomId => { patchDraft({ roomId }); location.href = 'ajukan.html'; });
   render();
 }
