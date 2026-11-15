@@ -27,7 +27,7 @@ function init() {
         <h1 class="h5 fw-bold mb-0">Ringkasan pengajuan</h1>
       </header>
       <p class="small text-secondary mb-3">Langkah 2 dari 2 &nbsp;•&nbsp; Periksa sebelum dikirim</p>
-      <div class="rl-photo mb-3"></div>
+      <div class="rl-photo mb-3"><i aria-hidden="true" class="bi bi-building"></i></div>
       <h2 class="fs-4 fw-bold mb-0">${esc(room.name)}</h2>
       <p class="small text-secondary mb-3">${[room.location, `${room.capacity} orang`].filter(Boolean).join(' &nbsp;•&nbsp; ')}</p>
       ${row('Jadwal', `${formatDateLong(draft.date)} · ${formatRange(draft.start, draft.end)} WIB`)}

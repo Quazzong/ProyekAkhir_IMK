@@ -1,5 +1,5 @@
 // Format tampilan tanggal/jam + grid kalender. Murni.
-import { toISODate } from './validation.js';
+import { toISODate, pad } from './validation.js';
 
 const DAYS = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
 const MONTHS = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
@@ -29,8 +29,7 @@ export const timeSlots = (from = 7, to = 21) =>
   });
 
 // Waktu lokal 'YYYY-MM-DDTHH:MM' (tanpa zona).
-const pad2 = n => String(n).padStart(2, '0');
-export const nowLocal = (d = new Date()) => `${toISODate(d)}T${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+export const nowLocal = (d = new Date()) => `${toISODate(d)}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
 export const formatClock = at => `${formatTime(at.slice(11, 16))} WIB`; // 11.00 WIB
 export const formatDateTime = at => `${formatDateShort(at.slice(0, 10))}, ${formatTime(at.slice(11, 16))}`; // 12 Nov 2026, 08.30
 export const formatDayMonth = at => { const d = parse(at.slice(0, 10)); return `${d.getDate()} ${MONTHS[d.getMonth()].slice(0, 3)}`; }; // 12 Nov

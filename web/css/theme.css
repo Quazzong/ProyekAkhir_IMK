@@ -24,7 +24,7 @@
   --bs-form-invalid-color:#B91C1C; --bs-form-invalid-border-color:#DC2626;
   --bs-progress-bar-bg:#2563EB;
   --bs-pagination-active-bg:#2563EB; --bs-pagination-active-border-color:#2563EB; --bs-pagination-color:#2563EB; --bs-pagination-hover-color:#1D4ED8; --bs-pagination-focus-color:#1D4ED8;
-  --rl-space-1:4px; --rl-space-2:8px; --rl-space-3:12px; --rl-space-4:16px; --rl-space-5:24px; --rl-space-6:32px;
+  --rl-space-4:16px;
 }
 .btn-primary{
   --bs-btn-bg:#2563EB;--bs-btn-border-color:#2563EB;
@@ -32,7 +32,6 @@
   --bs-btn-active-bg:#1E40AF;--bs-btn-active-border-color:#1E40AF;
   --bs-btn-disabled-bg:#2563EB;--bs-btn-disabled-border-color:#2563EB;
 }
-.btn{min-height:44px}
 
 /* ===== Token tambahan ===== */
 :root{
@@ -46,10 +45,10 @@
   --rl-warn-bg:#FEF3C7; --rl-warn-fg:#92400E;
   --rl-sidebar-muted:#93C5FD; --rl-sidebar-role-bg:#1E3A8A;
 }
-.btn{--bs-btn-font-weight:600;--bs-btn-border-radius:12px;font-size:14px}
+.btn{min-height:44px;--bs-btn-font-weight:600;--bs-btn-border-radius:12px;font-size:14px}
 .btn-danger{--bs-btn-bg:#DC2626;--bs-btn-border-color:#DC2626;--bs-btn-hover-bg:#B91C1C;--bs-btn-hover-border-color:#B91C1C;--bs-btn-active-bg:#991B1B;--bs-btn-active-border-color:#991B1B;--bs-btn-disabled-bg:#DC2626;--bs-btn-disabled-border-color:#DC2626}
 .btn-soft{--bs-btn-color:#2563EB;--bs-btn-bg:#EFF6FF;--bs-btn-border-color:#EFF6FF;--bs-btn-hover-color:#1D4ED8;--bs-btn-hover-bg:#DBEAFE;--bs-btn-hover-border-color:#DBEAFE;--bs-btn-active-color:#1D4ED8;--bs-btn-active-bg:#DBEAFE;--bs-btn-active-border-color:#DBEAFE}
-.btn:disabled:not(.is-loading),.btn.disabled:not(.is-loading){--bs-btn-disabled-color:#64748B;--bs-btn-disabled-bg:#E2E8F0;--bs-btn-disabled-border-color:#E2E8F0;--bs-btn-disabled-opacity:1}
+.btn:disabled:not(.is-loading),.btn.disabled:not(.is-loading){--bs-btn-disabled-color:var(--rl-disabled-fg);--bs-btn-disabled-bg:var(--rl-disabled-bg);--bs-btn-disabled-border-color:var(--rl-disabled-bg);--bs-btn-disabled-opacity:1}
 .btn.is-loading{--bs-btn-disabled-opacity:1}
 .form-control,.form-select{min-height:44px;font-size:14px}
 
@@ -67,4 +66,9 @@
 .form-control:focus,.form-select:focus{border-color:#93C5FD;box-shadow:0 0 0 .25rem rgba(37,99,235,.25)}
 .form-check-input:checked{background-color:#2563EB;border-color:#2563EB}
 .form-check-input:focus{border-color:#93C5FD;box-shadow:0 0 0 .25rem rgba(37,99,235,.25)}
-.btn-outline-secondary{--bs-btn-color:#475569;--bs-btn-border-color:#E2E8F0;--bs-btn-hover-color:#172554;--bs-btn-hover-bg:#F1F5F9;--bs-btn-hover-border-color:#CBD5E1;--bs-btn-active-color:#172554;--bs-btn-active-bg:#E2E8F0;--bs-btn-active-border-color:#CBD5E1}
+.btn-outline-secondary{--bs-btn-color:#475569;--bs-btn-bg:#FFFFFF;--bs-btn-border-color:#E2E8F0;--bs-btn-hover-color:#172554;--bs-btn-hover-bg:#F1F5F9;--bs-btn-hover-border-color:#CBD5E1;--bs-btn-active-color:#172554;--bs-btn-active-bg:#E2E8F0;--bs-btn-active-border-color:#CBD5E1}
+
+/* Kartu dan input putih di atas latar #F8FAFC */
+.card{--bs-card-bg:#FFFFFF}
+.form-control,.form-select{background-color:#FFFFFF}
+.btn-check:checked + .btn-outline-secondary{background:#EFF6FF;border-color:#2563EB;color:#2563EB}

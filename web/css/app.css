@@ -19,7 +19,8 @@
 .rl-step-dot{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:600;background:var(--rl-neutral-bg);color:var(--rl-neutral-fg)}
 .rl-step-dot.disetujui{background:var(--rl-ok-bg);color:var(--rl-ok-fg)}
 .rl-step-dot.menunggu{background:var(--rl-soft-bg);color:var(--bs-primary)}
-.rl-step-dot.ditolak,.rl-step-dot.perlu-revisi{background:var(--rl-soft-bg);color:var(--bs-danger)}
+.rl-step-dot.ditolak{background:var(--rl-danger-bg);color:var(--rl-danger-fg)}
+.rl-step-dot.perlu-revisi{background:var(--rl-soft-bg);color:var(--bs-primary-text-emphasis)}
 
 /* Notifikasi: titik biru belum dibaca */
 .rl-dot{width:8px;height:8px;border-radius:50%;background:var(--bs-primary);flex:none}
@@ -53,7 +54,9 @@
 
 /* Ikon hasil pengajuan & foto ruangan placeholder */
 .rl-result-icon{width:112px;height:112px;border-radius:50%;display:grid;place-items:center;margin-inline:auto;font-size:3rem}
+.rl-photo,.rl-photo-sm,.rl-photo-md{display:grid;place-items:center;color:var(--bs-secondary-color);font-size:1.5rem}
 .rl-photo{background:var(--bs-secondary-bg);border-radius:var(--bs-border-radius);height:128px}
+.rl-photo-xs{width:72px;height:72px;flex:none}
 .rl-photo-sm{width:88px;height:98px;flex:none;background:var(--bs-secondary-bg);border-radius:var(--bs-border-radius)}
 
 /* Portal penyetuju: bilah atas, kartu statistik, panel hasil keputusan */

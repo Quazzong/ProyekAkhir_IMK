@@ -17,7 +17,7 @@ export function submit(requests, data, id) {
   return { conflict: false, ...createRequest(data, id) };
 }
 
-export const CAPACITY_RANGES = {
+const CAPACITY_RANGES = {
   '<25': c => c < 25,
   '25–50': c => c >= 25 && c <= 50,
   '>50': c => c > 50,

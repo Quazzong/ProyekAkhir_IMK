@@ -20,7 +20,7 @@ export function update(fn) {
   return s;
 }
 
-export const currentUser = () => {
+const currentUser = () => {
   const s = getState();
   return s.users.find(u => u.id === s.session) ?? null;
 };

@@ -39,9 +39,9 @@ export function select({ id, label: text, options, placeholder = '', required = 
     `${feedback(id, error)}</div>`;
 }
 
-export const roomCard = ({ id = '', name, capacity, imageUrl = '', facilities = '' }) =>
+export const roomCard = ({ id = '', name, capacity, facilities = '' }) =>
   `<div class="card mb-3" ${id ? `data-room="${esc(id)}"` : ''}><div class="card-body d-flex gap-3">` +
-  `<div class="rounded-3 bg-body-secondary flex-none" style="width:72px;height:72px;background:center/cover url('${esc(imageUrl)}')"></div>` +
+  `<div class="rl-photo rl-photo-xs"><i aria-hidden="true" class="bi bi-building"></i></div>` +
   `<div class="flex-grow-1"><div class="fw-semibold">${esc(name)}</div>` +
   `<div class="small text-secondary">${capacity} orang · <span class="text-success-emphasis">Tersedia</span></div>` +
   `<div class="small text-secondary">${esc(facilities)}</div>` +

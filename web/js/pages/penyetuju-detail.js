@@ -40,7 +40,7 @@ function init() {
       <div class="col-8 d-flex flex-column gap-4">
         <div class="card"><div class="card-body p-4">
           <h2 class="fs-5 fw-semibold mb-3">Informasi peminjaman</h2>
-          <div class="d-flex gap-3 pb-3 mb-2 border-bottom"><div class="rl-photo-md"></div>
+          <div class="d-flex gap-3 pb-3 mb-2 border-bottom"><div class="rl-photo-md"><i aria-hidden="true" class="bi bi-building"></i></div>
             <div><div class="fs-4 fw-semibold">${esc(room.name)}</div>
               <div class="small text-secondary">${[room.location, `Kapasitas ${room.capacity} orang`].filter(Boolean).map(esc).join(' &nbsp;•&nbsp; ')}</div>
               <div class="text-primary mt-2">${formatDateWithDay(req.date)} &nbsp;•&nbsp; ${formatRange(req.start, req.end)} WIB</div></div></div>
@@ -68,7 +68,7 @@ function init() {
         </div></div>
         <div class="card flex-grow-1"><div class="card-body p-4">
           <h2 class="fs-5 fw-semibold mb-1">Catatan persetujuan</h2>
-          ${actionable ? `<label for="note" class="small text-secondary mb-3">Wajib diisi untuk revisi atau penolakan.</label>
+          ${actionable ? `<label for="note" class="d-block small text-secondary mb-3">Wajib diisi untuk revisi atau penolakan.</label>
             <textarea id="note" class="form-control mb-1" rows="4"></textarea><div class="invalid-feedback" id="note-err"></div>
             <p class="small text-secondary mt-3 mb-2">${esc(info.noteHint)}</p><p class="small text-warning-emphasis mb-0">Revisi / penolakan menghentikan proses.</p>`
     : `<p class="small text-secondary mb-0 mt-3">${esc(req.notes?.[stage] || 'Belum ada catatan dari tahap Anda.')}</p>`}

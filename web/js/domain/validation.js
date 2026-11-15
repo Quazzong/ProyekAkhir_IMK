@@ -14,7 +14,7 @@ export const MAX_FILE_BYTES = 10 * 1024 * 1024;
 const FILE_EXT = ['pdf', 'doc', 'docx', 'jpg', 'jpeg'];
 export const KINDS = ['Rapat', 'Kelas Pengganti', 'Acara'];
 
-const pad = n => String(n).padStart(2, '0');
+export const pad = n => String(n).padStart(2, '0');
 // Tanggal lokal YYYY-MM-DD (toISOString menggeser hari di WIB sebelum 07.00).
 export const toISODate = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 export const isPastDate = (date, today = new Date()) => date < toISODate(today);

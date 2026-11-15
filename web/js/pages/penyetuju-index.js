@@ -29,7 +29,7 @@ function init() {
     </div>
     <div class="row row-cols-4 g-4 mb-4">
       ${stat('Total pengajuan masuk', st.total, `Bulan ${month}`, 'file-earmark-text', '--rl-soft-bg', '--bs-primary')}
-      ${stat('Menunggu persetujuan', st.pending, 'Perlu ditinjau pada tahap Anda', 'clock', '--rl-warn-bg', '--bs-warning')}
+      ${stat('Menunggu persetujuan', st.pending, 'Perlu ditinjau pada tahap Anda', 'clock', '--rl-warn-bg', '--rl-warn-fg')}
       ${stat(`Disetujui ${label}`, st.approved, `Bulan ${month}`, 'check-lg', '--rl-ok-bg', '--bs-success')}
       ${stat(`Ditolak ${label}`, st.rejected, `Bulan ${month}`, 'x-lg', '--rl-danger-bg', '--bs-danger')}
     </div>
