@@ -7,4 +7,4 @@ export function authenticate(users, identifier = '', password = '') {
   return users.find(u => u.login.toLowerCase() === id || u.nim === id) ?? null;
 }
 
-export const homeFor = user => (user.role === 'pemohon' ? 'index.html' : 'penyetuju/index.html');
+export const homeFor = user => ({ pemohon: 'index.html', keamanan: 'keamanan/index.html' })[user.role] ?? 'penyetuju/index.html';

@@ -7,7 +7,13 @@ if (new URLSearchParams(location.search).has('reset')) localStorage.removeItem(K
 
 export function getState() {
   const raw = localStorage.getItem(KEY);
-  if (raw) return JSON.parse(raw);
+  if (raw) {
+    // Data lama dari versi sebelumnya: tambahkan akun seed yang belum ada (mis. Petugas Keamanan), data lain tidak disentuh.
+    const s = JSON.parse(raw);
+    const missing = seed.users.filter(u => !s.users.some(x => x.id === u.id));
+    if (missing.length) { s.users.push(...structuredClone(missing)); localStorage.setItem(KEY, JSON.stringify(s)); }
+    return s;
+  }
   const s = { ...structuredClone(seed), session: null, draft: null };
   localStorage.setItem(KEY, JSON.stringify(s));
   return s;
@@ -25,12 +31,12 @@ export const currentUser = () => {
   return s.users.find(u => u.id === s.session) ?? null;
 };
 // Data kerja milik akun (draft, revisi, hasil, toast) ikut dibuang agar tidak terbawa ke akun berikutnya.
-export const logout = () => update(s => { s.session = null; for (const k of ['draft', 'revision', 'result', 'flash']) delete s[k]; });
+export const logout = () => update(s => { s.session = null; for (const k of ['draft', 'revision', 'result', 'flash', 'securityDate']) delete s[k]; });
 
-// kind: 'pemohon' | 'penyetuju'. Tanpa sesi / salah peran → masuk.html.
+// kind: 'pemohon' | 'penyetuju' | 'keamanan'. Tanpa sesi / salah peran → masuk.html (lalu diarahkan ke beranda perannya).
 export function requireSession(kind, loginUrl = 'masuk.html') {
   const u = currentUser();
-  const ok = u && (kind === 'pemohon' ? u.role === 'pemohon' : PORTAL_ROLES.includes(u.role));
+  const ok = u && (kind === 'penyetuju' ? PORTAL_ROLES.includes(u.role) : u.role === kind);
   if (!ok) location.replace(loginUrl);
   return ok ? u : null;
 }

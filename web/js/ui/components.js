@@ -165,8 +165,8 @@ export const portalTable = (columns, rows) =>
   `<tbody>${rows.map(r => `<tr>${r.map(c => `<td class="small">${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
 
 // level: 'Tingkat 1 dari 3  •  Aktif'. Item tanpa layar (Riwayat Keputusan, Pengaturan) = href '#'.
-export const sidebar = ({ role, level = '', items, active }) =>
-  `<aside class="rl-sidebar d-flex flex-column p-3"><div class="fs-4 fw-bold mb-1"><i aria-hidden="true" class="bi bi-building me-2"></i>RoomLink</div><div class="small fw-semibold mb-4 text-uppercase rl-sidebar-muted">Portal Penyetuju</div>` +
+export const sidebar = ({ title = 'Portal Penyetuju', role, level = '', items, active }) =>
+  `<aside class="rl-sidebar d-flex flex-column p-3"><div class="fs-4 fw-bold mb-1"><i aria-hidden="true" class="bi bi-building me-2"></i>RoomLink</div><div class="small fw-semibold mb-4 text-uppercase rl-sidebar-muted">${esc(title)}</div>` +
   `<div class="rounded-3 p-3 mb-4 rl-sidebar-role"><div class="fw-semibold">${esc(role)}</div>${level ? `<div class="small rl-sidebar-muted">${esc(level)}</div>` : ''}</div>` +
   `<ul class="nav flex-column gap-2 flex-grow-1">${items.map(i => `<li><a class="nav-link py-2 ${i.label === active ? 'active' : ''}" href="${esc(i.href)}" ${i.label === active ? 'aria-current="page"' : ''}><i aria-hidden="true" class="bi bi-${i.icon} me-2"></i>${esc(i.label)}</a></li>`).join('')}</ul>` +
   `<hr class="rl-sidebar-muted"><button type="button" class="nav-link text-start small mb-3 rl-sidebar-muted" data-bs-toggle="modal" data-bs-target="#m-help">Butuh bantuan?</button>` +

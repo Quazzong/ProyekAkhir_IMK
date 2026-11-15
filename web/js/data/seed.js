@@ -11,6 +11,8 @@ export const seed = {
     { id: 'u6', name: 'Nadia Safitri', role: 'pemohon', login: 'nadia@kampus.ac.id', position: 'Mahasiswa', unit: 'UKM', unitFull: 'UKM' },
     { id: 'u7', name: 'Fajar Ramadhan', role: 'pemohon', login: 'fajar@kampus.ac.id', position: 'Mahasiswa', unit: 'BEM', unitFull: 'BEM' },
     { id: 'u8', name: 'Dewi Anggraini', role: 'pemohon', login: 'dewi@kampus.ac.id', position: 'Dosen', unit: 'Manajemen', unitFull: 'Program Studi Manajemen' },
+    // Petugas Keamanan (HTA 9). id = 'keamanan' karena notifikasi persetujuan akhir dikirim ke userId itu.
+    { id: 'keamanan', name: 'Agus Setiawan', role: 'keamanan', login: 'agus@kampus.ac.id', position: 'Petugas Keamanan Gedung', honorific: 'Pak' },
     { id: 'u9', name: 'Ilham Maulana', role: 'pemohon', login: 'ilham@kampus.ac.id', position: 'Mahasiswa', unit: 'UKM', unitFull: 'UKM' },
   ],
   rooms: [
@@ -52,6 +54,19 @@ export const seed = {
       description: 'Seminar pengembangan karier dan lokakarya portofolio untuk mahasiswa.',
       attachment: { name: 'Proposal_Seminar.pdf', size: 245760 }, createdAt: '2026-11-09T08:30', status: 'Dibatalkan', notes: {},
       stages: { sarpras: 'Menunggu', kemahasiswaan: 'Belum diproses', kabag: 'Belum diproses' } },
+    // Pemakaian terverifikasi hari-H untuk portal keamanan (tidak bentrok dengan seed lain).
+    { id: 'RL-2026-0191', userId: 'u5', roomId: 'r2', date: '2026-11-20', start: '08:00', end: '10:00',
+      name: 'Kelas Pengganti Struktur Data', kind: 'Kelas Pengganti', attendees: 32, contact: '0813-2222-1111',
+      description: 'Kelas pengganti mata kuliah Struktur Data.', attachment: null, createdAt: '2026-11-11T09:00', status: 'Disetujui',
+      notes: { sarpras: 'Sarana telah diverifikasi.', kemahasiswaan: 'Berkas lengkap.', kabag: 'Disetujui.' },
+      stageAt: { sarpras: '2026-11-11T10:00', kemahasiswaan: '2026-11-11T11:00', kabag: '2026-11-11T13:00' },
+      stages: { sarpras: 'Disetujui', kemahasiswaan: 'Disetujui', kabag: 'Disetujui' } },
+    { id: 'RL-2026-0192', userId: 'u7', roomId: 'r4', date: '2026-11-20', start: '13:00', end: '14:30',
+      name: 'Rapat Evaluasi Program Kerja BEM', kind: 'Rapat', attendees: 12, contact: '0813-4444-3333',
+      description: 'Rapat evaluasi program kerja semester.', attachment: null, createdAt: '2026-11-11T09:30', status: 'Disetujui',
+      notes: { sarpras: 'Sarana telah diverifikasi.', kemahasiswaan: 'Berkas lengkap.', kabag: 'Disetujui.' },
+      stageAt: { sarpras: '2026-11-11T10:10', kemahasiswaan: '2026-11-11T11:10', kabag: '2026-11-11T13:10' },
+      stages: { sarpras: 'Disetujui', kemahasiswaan: 'Disetujui', kabag: 'Disetujui' } },
     // Antrean penyetuju. Jenis "Keg. Organisasi"/"Kegiatan UKM" dinormalkan ke Acara.
     { id: 'RL-2026-0186', userId: 'u5', roomId: 'r2', date: '2026-11-18', start: '13:00', end: '15:00',
       name: 'Kelas Pengganti Basis Data', kind: 'Kelas Pengganti', attendees: 35, contact: '0813-2222-1111',
@@ -80,6 +95,7 @@ export const seed = {
   ],
   // kind: submitted | approved | forwarded | revise | rejected | final. Nomor pengajuan sesuai data seed.
   notifications: [
+    { id: 'n7', userId: 'keamanan', requestId: 'RL-2026-0172', kind: 'final', title: 'Peminjaman disetujui', body: 'RL-2026-0172 · Ruang Seminar · 2026-11-20 15:00–17:00', at: '2026-11-12T11:00', read: false },
     { id: 'n6', userId: 'u1', requestId: 'RL-2026-0172', kind: 'final', title: 'Pengajuan disetujui Kabag Umum', body: 'Ruang Seminar siap digunakan. Keamanan gedung telah menerima pemberitahuan.', at: '2026-11-12T11:00', read: false },
     { id: 'n5', userId: 'u1', requestId: 'RL-2026-0179', kind: 'revise', title: 'Permintaan revisi', body: 'Kemahasiswaan meminta surat izin UKM. Perbaiki pengajuan RL-2026-0179.', at: '2026-11-12T10:20', read: false },
     { id: 'n4', userId: 'u1', requestId: 'RL-2026-0175', kind: 'rejected', title: 'Pengajuan ditolak', body: 'Pengajuan ruang rapat tidak sesuai izin. Pilih jadwal atau ruangan lain.', at: '2026-11-12T10:05', read: false },

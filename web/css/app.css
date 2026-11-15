@@ -69,6 +69,7 @@ a.btn{display:inline-flex;align-items:center;justify-content:center;gap:.25rem}
 .btn-danger-soft{--bs-btn-color:var(--rl-danger-fg);--bs-btn-bg:var(--rl-danger-bg);--bs-btn-border-color:var(--rl-danger-bg);--bs-btn-hover-color:var(--rl-danger-fg);--bs-btn-hover-bg:var(--rl-danger-bg);--bs-btn-hover-border-color:var(--rl-danger-fg);--bs-btn-active-bg:var(--rl-danger-bg);--bs-btn-active-color:var(--rl-danger-fg)}
 .rl-modal-result{max-width:480px}
 .rl-ok-box{background:var(--rl-ok-bg);color:var(--rl-ok-fg)}
+.rl-danger-box{background:var(--rl-danger-bg);color:var(--rl-danger-fg)}
 /* Tab Aktif/Riwayat: wadah abu-abu, tab aktif putih */
 .rl-tabs{background:var(--rl-neutral-bg);border-radius:10px;padding:4px}
 .rl-tabs .nav-link{color:var(--rl-neutral-fg);font-weight:600;border-radius:8px;min-height:44px}
