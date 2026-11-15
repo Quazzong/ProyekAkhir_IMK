@@ -6,7 +6,9 @@ import { portalSteps } from '../domain/request-view.js';
 import { formatDateLong, formatDateWithDay, formatRange, formatTime, formatSize, formatDateShort, nowLocal } from '../domain/dates.js';
 import { statusChip, stepperH, resultModal, esc, showToast, roomPhoto } from '../ui/components.js';
 
-const user = mountPortal({ active: 'Pengajuan Masuk', crumbs: ['Pengajuan Masuk', 'Detail'], roleChip: false });
+// Dibuka dari Riwayat Keputusan → kembali ke sana (asal halaman, bukan data, jadi cukup referrer).
+const back = /\/riwayat\.html/.test(document.referrer) ? ['Riwayat Keputusan', 'riwayat.html'] : ['Pengajuan Masuk', 'pengajuan.html'];
+const user = mountPortal({ active: back[0], crumbs: [back[0], 'Detail'], roleChip: false });
 const id = new URLSearchParams(location.search).get('id');
 if (user && !getState().requests.find(r => r.id === id && r.status !== 'Dibatalkan')) location.replace('pengajuan.html');
 else if (user) init();
@@ -29,7 +31,7 @@ function init() {
     ? `<span class="badge badge-status badge-menunggu px-3 py-2">Menunggu ${esc(STAGE_LABELS[turn])}</span>` : statusChip(req.status);
 
   $('content').innerHTML = `
-    <a href="pengajuan.html" class="small fw-semibold text-decoration-none d-inline-block mb-3"><i aria-hidden="true" class="bi bi-chevron-left me-2"></i>Pengajuan Masuk</a>
+    <a href="${back[1]}" class="small fw-semibold text-decoration-none d-inline-block mb-3"><i aria-hidden="true" class="bi bi-chevron-left me-2"></i>${back[0]}</a>
     <div class="d-flex justify-content-between align-items-start mb-4">
       <div><h1 class="fs-2 fw-bold mb-1">Detail Persetujuan</h1>
         <p class="text-secondary mb-0">${esc(req.id)} &nbsp;•&nbsp; Diajukan ${formatDateLong(req.createdAt.slice(0, 10))}, ${formatTime(req.createdAt.slice(11, 16))} WIB</p></div>
