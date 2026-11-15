@@ -39,9 +39,10 @@ Kata sandi bebas, asal tidak kosong. Semua nama dan email di bawah fiktif.
 | Sarpras (tahap 1) | Budi Santoso | `budi@kampus.ac.id` |
 | Kemahasiswaan (tahap 2) | Rina Wulandari | `rina@kampus.ac.id` |
 | Kabag Umum (tahap 3) | Hendra Wijaya | `hendra@kampus.ac.id` |
+| Petugas Keamanan | Agus Setiawan | `agus@kampus.ac.id` |
 
 - Semua peran memakai `masuk.html` yang sama.
-- Setelah login, pemohon diarahkan ke `index.html` dan penyetuju ke `penyetuju/index.html`.
+- Setelah login, pemohon diarahkan ke `index.html`, penyetuju ke `penyetuju/index.html`, dan petugas keamanan ke `keamanan/index.html`.
 - Halaman yang dibuka tanpa sesi akan dialihkan ke `masuk.html`.
 - Keluar membuka dialog konfirmasi. Setelah keluar, sesi dan draf pengajuan dihapus.
 
@@ -51,6 +52,7 @@ Kata sandi bebas, asal tidak kosong. Semua nama dan email di bawah fiktif.
 |---|---|
 | Pemohon (mahasiswa, pengurus UKM, dosen) | Mobile-first, dengan bottom nav. Mulai lebar ≥992 px (breakpoint `lg` Bootstrap): navbar atas dan layout dua kolom. |
 | Penyetuju (Sarpras, Kemahasiswaan, Kabag Umum) | Portal desktop dengan sidebar: Dasbor, Pengajuan Masuk, Riwayat Keputusan, Pengaturan. |
+| Petugas Keamanan | Portal desktop: Jadwal Pemakaian (peminjaman yang sudah disetujui per tanggal), pemeriksaan di lokasi (Sesuai / Tidak Sesuai, catatan wajib untuk Tidak Sesuai), Pengaturan. |
 
 ## Alur pengajuan
 
@@ -92,6 +94,8 @@ web/
   pengajuan-detail.html   detail + linimasa persetujuan (?id=)
   notifikasi.html
   penyetuju/              index (dasbor), pengajuan, detail, riwayat, pengaturan
+  keamanan/               index (jadwal pemakaian), detail (pemeriksaan), pengaturan
+  img/rooms/              foto ruangan
   css/
     theme.css             design token + override variabel Bootstrap
     app.css               gaya yang tidak tersedia di Bootstrap
@@ -112,4 +116,3 @@ web/
 
 - Data hanya ada di browser yang dipakai, tidak tersinkron antarperangkat.
 - Login hanya mencocokkan akun demo. Kata sandi tidak diverifikasi.
-- Belum ada layar untuk Petugas Keamanan. Notifikasinya tetap dicatat di data.

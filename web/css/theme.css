@@ -54,6 +54,10 @@
   --rl-ease:cubic-bezier(.22,.61,.36,1); --rl-dur:.3s; --rl-dur-slow:.5s; --rl-brush-dur:.7s; --rl-wave-dur:1.1s; --rl-rise:8px; --rl-stagger:45ms;
 }
 .btn{min-height:44px;--bs-btn-font-weight:600;--bs-btn-border-radius:12px;font-size:14px}
+/* Cincin fokus untuk .btn tanpa varian Bootstrap (ikon, soft): warna fallback primary bila varian tidak mengisinya. */
+.btn{--bs-btn-focus-box-shadow:0 0 0 .25rem rgba(var(--bs-btn-focus-shadow-rgb, 37,99,235),.5)}
+/* Kontras AA: abu sekunder di latar biru muda (#64748B = 4,37:1) → slate-600. */
+.bg-soft .text-secondary{color:#475569!important}
 .btn-danger{--bs-btn-bg:#DC2626;--bs-btn-border-color:#DC2626;--bs-btn-hover-bg:#B91C1C;--bs-btn-hover-border-color:#B91C1C;--bs-btn-active-bg:#991B1B;--bs-btn-active-border-color:#991B1B;--bs-btn-disabled-bg:#DC2626;--bs-btn-disabled-border-color:#DC2626}
 .btn-soft{--bs-btn-color:#2563EB;--bs-btn-bg:#EFF6FF;--bs-btn-border-color:#EFF6FF;--bs-btn-hover-color:#1D4ED8;--bs-btn-hover-bg:#DBEAFE;--bs-btn-hover-border-color:#DBEAFE;--bs-btn-active-color:#1D4ED8;--bs-btn-active-bg:#DBEAFE;--bs-btn-active-border-color:#DBEAFE}
 .btn:disabled:not(.is-loading),.btn.disabled:not(.is-loading){--bs-btn-disabled-color:var(--rl-disabled-fg);--bs-btn-disabled-bg:var(--rl-disabled-bg);--bs-btn-disabled-border-color:var(--rl-disabled-bg);--bs-btn-disabled-opacity:1}
