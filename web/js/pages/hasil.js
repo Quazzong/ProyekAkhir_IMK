@@ -25,12 +25,12 @@ function init() {
 
   document.getElementById('app').innerHTML = `
     <header class="d-flex align-items-center gap-2 mb-5">
-      <a href="${v.back}" class="btn p-2" aria-label="Kembali"><i class="bi bi-arrow-left fs-5"></i></a>
+      <a href="${v.back}" class="btn p-2" aria-label="Kembali"><i aria-hidden="true" class="bi bi-arrow-left fs-5"></i></a>
       <h1 class="h5 fw-bold mb-0">Hasil pengajuan</h1>
     </header>
     <div class="py-4">
       <div class="rl-result-icon mb-4" style="background:var(--${v.ok ? 'rl-ok-bg' : 'rl-danger-bg'})">
-        <i class="bi bi-${v.ok ? 'check-lg text-success' : 'exclamation-triangle text-danger'}"></i></div>
+        <i aria-hidden="true" class="bi bi-${v.ok ? 'check-lg text-success' : 'exclamation-triangle text-danger'}"></i></div>
       <h2 class="fs-3 fw-bold">${v.title}</h2>
       <p class="text-secondary">${esc(v.body)}</p>
     </div>

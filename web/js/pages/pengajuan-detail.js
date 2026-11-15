@@ -20,7 +20,7 @@ function init() {
 
   $('app').innerHTML = `
     <header class="d-flex align-items-center gap-2 mb-1">
-      <a href="pengajuan.html" class="btn p-2" aria-label="Kembali ke Pengajuan Saya"><i class="bi bi-arrow-left fs-5"></i></a>
+      <a href="pengajuan.html" class="btn p-2" aria-label="Kembali ke Pengajuan Saya"><i aria-hidden="true" class="bi bi-arrow-left fs-5"></i></a>
       <h1 class="h5 fw-bold mb-0">Detail pengajuan</h1>
     </header>
     <p class="small text-secondary mb-2">${esc(req.id)} &nbsp;•&nbsp; Diajukan ${formatDateTime(req.createdAt)}</p>

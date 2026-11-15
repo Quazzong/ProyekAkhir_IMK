@@ -20,11 +20,11 @@ function init() {
     <h1 class="fs-3 fw-bold mb-1">Pengajuan Saya</h1>
     <p class="small text-secondary mb-3">Pantau kegiatan dan status persetujuan.</p>
     <div id="tabs"></div>
-    <div class="position-relative mb-3"><i class="bi bi-search position-absolute top-50 translate-middle-y ms-3 text-secondary"></i>
+    <div class="position-relative mb-3"><i aria-hidden="true" class="bi bi-search position-absolute top-50 translate-middle-y ms-3 text-secondary"></i>
       <input id="q" class="form-control ps-5" placeholder="Cari nama kegiatan atau ID" aria-label="Cari nama kegiatan atau ID"></div>
     <select id="status" class="form-select form-select-sm w-auto border-0 bg-transparent text-primary fw-semibold ps-0 mb-2" aria-label="Filter status"></select>
     <div id="list" class="rl-fab-space"></div>
-    <a href="index.html" class="btn btn-primary rl-fab" aria-label="Buat pengajuan baru"><i class="bi bi-plus-lg fs-5"></i></a>`;
+    <a href="index.html" class="btn btn-primary rl-fab" aria-label="Buat pengajuan baru"><i aria-hidden="true" class="bi bi-plus-lg fs-5"></i></a>`;
 
   function render() {
     $('tabs').innerHTML = tabs(['Aktif', 'Riwayat'], tab);

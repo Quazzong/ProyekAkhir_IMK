@@ -26,7 +26,7 @@ export function mountPortal({ active, crumbs, roleChip = true }) {
         <nav aria-label="breadcrumb" class="flex-grow-1"><ol class="breadcrumb mb-0 small">
           <li class="breadcrumb-item"><a href="index.html" class="text-secondary text-decoration-none">Portal Penyetuju</a></li>
           ${crumbs.map((c, i) => `<li class="breadcrumb-item ${i === crumbs.length - 1 ? 'active' : ''}">${esc(c)}</li>`).join('')}</ol></nav>
-        <a href="pengajuan.html" class="btn position-relative p-2" id="bell" aria-label="Notifikasi${unread ? `, ${unread} belum dibaca` : ''}"><i class="bi bi-bell fs-5"></i>${unread ? `<span class="badge text-bg-primary rounded-pill position-absolute top-0 end-0">${unread}</span>` : ''}</a>
+        <a href="pengajuan.html" class="btn position-relative p-2" id="bell" aria-label="Notifikasi${unread ? `, ${unread} belum dibaca` : ''}"><i aria-hidden="true" class="bi bi-bell fs-5"></i>${unread ? `<span class="badge text-bg-primary rounded-pill position-absolute top-0 end-0">${unread}</span>` : ''}</a>
         <div><div class="fw-semibold">${esc(user.name)}</div><div class="small text-secondary">Penyetuju ${esc(label)}</div></div>
         ${roleChip ? `<span class="badge badge-filter rounded-3 px-3 py-2">${esc(label)}</span>` : ''}
       </header>
@@ -50,7 +50,7 @@ export function queueTable(rows, { rooms, users, stage, offset = 0 }) {
       `<div class="fw-semibold text-body">${esc(u.name)}</div><div class="text-secondary">${esc([u.position, u.unit].filter(Boolean).join(' · '))}</div>`,
       esc(rooms.find(x => x.id === r.roomId).name), esc(r.kind), formatDateShort(r.date), formatRange(r.start, r.end),
       statusChip(r.stages[stage]),
-      `<a class="btn btn-soft btn-sm" href="detail.html?id=${encodeURIComponent(r.id)}">Lihat Detail <i class="bi bi-arrow-right"></i></a>`,
+      `<a class="btn btn-soft btn-sm" href="detail.html?id=${encodeURIComponent(r.id)}">Lihat Detail <i aria-hidden="true" class="bi bi-arrow-right"></i></a>`,
     ];
   }));
 }

@@ -23,10 +23,10 @@ function init() {
   $('content').innerHTML = `
     <h1 class="fs-2 fw-bold mb-2">Pengajuan Masuk</h1>
     <p class="text-secondary mb-4">${esc(info.intro)}</p>
-    <div class="rounded-3 bg-soft p-3 mb-4 d-flex gap-3"><i class="bi bi-file-earmark-text fs-5 text-primary"></i>
+    <div class="rounded-3 bg-soft p-3 mb-4 d-flex gap-3"><i aria-hidden="true" class="bi bi-file-earmark-text fs-5 text-primary"></i>
       <div><div class="fw-semibold">Antrean ${esc(label)} · Tingkat ${info.level}</div><div class="small text-secondary">${esc(info.queueNote)}</div></div></div>
     <div class="card mb-4"><div class="card-body row g-3">
-      <div class="col-6 position-relative"><i class="bi bi-search position-absolute top-50 translate-middle-y ms-3 text-secondary"></i>
+      <div class="col-6 position-relative"><i aria-hidden="true" class="bi bi-search position-absolute top-50 translate-middle-y ms-3 text-secondary"></i>
         <input id="q" class="form-control ps-5 bg-body border-0" placeholder="Cari nama pemohon, ruangan, atau ID pengajuan" aria-label="Cari nama pemohon, ruangan, atau ID pengajuan"></div>
       <div class="col-3"><select id="status" class="form-select" aria-label="Filter status">
         <option value="">Status: Semua</option>${STATUSES.map(x => `<option value="${x}" ${x === f.status ? 'selected' : ''}>Status: ${x}</option>`).join('')}</select></div>
@@ -56,7 +56,7 @@ function init() {
     const start = (f.page - 1) * PER_PAGE;
     const shown = rows.slice(start, start + PER_PAGE);
     $('count').textContent = `${rows.length} pengajuan${f.status ? ` ${f.status.toLowerCase()}` : ''}`;
-    $('sort').innerHTML = `Urutkan: ${f.desc ? 'terbaru' : 'terlama'} <i class="bi bi-arrow-${f.desc ? 'down' : 'up'}"></i>`;
+    $('sort').innerHTML = `Urutkan: ${f.desc ? 'terbaru' : 'terlama'} <i aria-hidden="true" class="bi bi-arrow-${f.desc ? 'down' : 'up'}"></i>`;
     $('table').innerHTML = shown.length ? queueTable(shown, { rooms: s.rooms, users: s.users, stage, offset: start }) : '<div class="card-body text-secondary small">Tidak ada pengajuan yang cocok.</div>';
     $('range').textContent = rows.length ? `Menampilkan ${start + 1}–${start + shown.length} dari ${rows.length} pengajuan` : '';
     const li = (p, text, aria, disabled = false) => `<li class="page-item ${p === f.page && !aria ? 'active' : ''} ${disabled ? 'disabled' : ''}"><a class="page-link" href="#" data-page="${p}" ${aria ? `aria-label="${aria}"` : ''}>${text}</a></li>`;

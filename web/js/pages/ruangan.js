@@ -23,7 +23,7 @@ function init() {
   $('nav').innerHTML = mainNav('Kalender', unreadCount(user.id));
   $('app').innerHTML = `
     <header class="d-flex align-items-center gap-2 mb-1">
-      <a href="index.html" class="btn p-2" aria-label="Kembali ke Kalender"><i class="bi bi-arrow-left fs-5"></i></a>
+      <a href="index.html" class="btn p-2" aria-label="Kembali ke Kalender"><i aria-hidden="true" class="bi bi-arrow-left fs-5"></i></a>
       <h1 class="h5 fw-bold mb-0">Ruangan tersedia</h1>
     </header>
     <p class="small text-secondary mb-3">${formatDateWithDay(slot.date)} &nbsp;•&nbsp; ${formatRange(slot.start, slot.end)}</p>
@@ -50,7 +50,7 @@ function init() {
     const chips = [filter.type && filterChip(filter.type, 'type'), capChip && filterChip(capChip, 'capacity')].filter(Boolean);
     $('list').innerHTML = (rooms.length
       ? `<div class="d-flex justify-content-between align-items-center mb-3"><span class="fw-semibold">${rooms.length} ruangan tersedia</span>` +
-        `<button type="button" class="btn btn-soft btn-sm" data-act="filter"><i class="bi bi-funnel me-1"></i>Filter</button></div>`
+        `<button type="button" class="btn btn-soft btn-sm" data-act="filter"><i aria-hidden="true" class="bi bi-funnel me-1"></i>Filter</button></div>`
       : '') +
       (chips.length ? `<div class="d-flex flex-wrap align-items-center gap-2 mb-3">${chips.join('')}<button type="button" class="btn btn-link btn-sm p-0" data-act="reset">Reset filter</button></div>` : '') +
       (rooms.length

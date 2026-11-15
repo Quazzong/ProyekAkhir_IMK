@@ -6,7 +6,7 @@ import { button } from '../ui/components.js';
 const app = document.getElementById('app');
 app.innerHTML = `
 <header class="rl-hero px-4 pt-5 pb-5">
-  <i class="bi bi-door-closed fs-1 text-white-50 d-block mb-4"></i>
+  <i aria-hidden="true" class="bi bi-door-closed fs-1 text-white-50 d-block mb-4"></i>
   <h1 class="display-6 fw-bold mb-2">RoomLink</h1>
   <p class="fs-5 mb-3">Sistem Peminjaman<br>Ruangan Kampus</p>
   <p class="small text-white-50 mb-0">Ruang untuk ide besar Anda.</p>
@@ -23,7 +23,7 @@ app.innerHTML = `
     <label for="pass" class="form-label fw-medium">Kata sandi <span class="text-danger">*</span></label>
     <div class="input-group has-validation">
       <input id="pass" type="password" class="form-control" autocomplete="current-password">
-      <button type="button" class="btn btn-outline-secondary" id="eye" aria-label="Tampilkan kata sandi" aria-pressed="false"><i class="bi bi-eye"></i></button>
+      <button type="button" class="btn btn-outline-secondary" id="eye" aria-label="Tampilkan kata sandi" aria-pressed="false"><i aria-hidden="true" class="bi bi-eye"></i></button>
       <div class="invalid-feedback"></div>
     </div>
   </div>

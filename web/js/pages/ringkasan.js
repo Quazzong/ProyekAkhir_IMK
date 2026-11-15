@@ -23,7 +23,7 @@ function init() {
   function render(loading = false) {
     $('app').innerHTML = `
       <header class="d-flex align-items-center gap-2 mb-1">
-        <a href="ajukan.html" class="btn p-2 ${loading ? 'disabled' : ''}" aria-label="Kembali ke formulir"><i class="bi bi-arrow-left fs-5"></i></a>
+        <a href="ajukan.html" class="btn p-2 ${loading ? 'disabled' : ''}" aria-label="Kembali ke formulir"><i aria-hidden="true" class="bi bi-arrow-left fs-5"></i></a>
         <h1 class="h5 fw-bold mb-0">Ringkasan pengajuan</h1>
       </header>
       <p class="small text-secondary mb-3">Langkah 2 dari 2 &nbsp;•&nbsp; Periksa sebelum dikirim</p>

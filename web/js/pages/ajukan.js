@@ -28,7 +28,7 @@ function init() {
 
   $('app').innerHTML = `
     <header class="d-flex align-items-center gap-2 mb-1">
-      <button type="button" class="btn p-2" id="back" aria-label="Kembali"><i class="bi bi-arrow-left fs-5"></i></button>
+      <button type="button" class="btn p-2" id="back" aria-label="Kembali"><i aria-hidden="true" class="bi bi-arrow-left fs-5"></i></button>
       <h1 class="h5 fw-bold mb-0">${editReq ? 'Perbaiki pengajuan' : 'Formulir pengajuan'}</h1>
     </header>
     <p class="small text-secondary mb-3" id="sub">${editReq ? `${esc(editReq.id)} &nbsp;•&nbsp; Data sebelumnya tetap tersimpan` : 'Langkah 1 dari 2 &nbsp;•&nbsp; Lengkapi informasi kegiatan'}</p>
@@ -67,8 +67,8 @@ function init() {
       ? `<div class="small fw-semibold mb-2">${esc(msg)}</div><div class="progress" role="progressbar" aria-label="Mengunggah" style="height:6px"><div class="progress-bar" id="bar" style="width:0%"></div></div>`
       : a
         ? `<div class="d-flex justify-content-between"><div><div class="small fw-semibold text-primary">${esc(a.name)}</div><div class="small text-secondary">PDF, DOC, JPG &nbsp;•&nbsp; Maks. 10 MB</div><div class="small text-success-emphasis">${formatSize(a.size)} &nbsp; ✓ Berhasil diunggah</div></div><button type="button" class="btn btn-link btn-sm text-danger align-self-start" id="rm">Hapus</button></div>`
-        : `<label for="file" class="d-flex gap-3 align-items-center mb-0" style="cursor:pointer"><i class="bi bi-cloud-arrow-up fs-4 text-primary"></i><span><span class="d-block small fw-semibold text-primary">Unggah dokumen</span><span class="d-block small text-secondary">PDF, DOC, JPG &nbsp;•&nbsp; Maks. 10 MB</span></span></label>`;
-    $('upload').innerHTML = `<div class="rl-upload p-3">${body}</div><input type="file" id="file" class="d-none" accept=".pdf,.doc,.docx,.jpg,.jpeg">` +
+        : `<label for="file" class="d-flex gap-3 align-items-center mb-0" style="cursor:pointer"><i aria-hidden="true" class="bi bi-cloud-arrow-up fs-4 text-primary"></i><span><span class="d-block small fw-semibold text-primary">Unggah dokumen</span><span class="d-block small text-secondary">PDF, DOC, JPG &nbsp;•&nbsp; Maks. 10 MB</span></span></label>`;
+    $('upload').innerHTML = `<div class="rl-upload p-3">${body}</div><input type="file" id="file" class="visually-hidden" accept=".pdf,.doc,.docx,.jpg,.jpeg">` +
       `<div class="small text-danger mt-1" id="file-err">${esc(state === 'error' ? msg : '')}</div>`;
     if ($('rm')) $('rm').onclick = () => { f.attachment = null; save(); renderUpload(); };
     $('file').onchange = e => {

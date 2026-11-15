@@ -21,16 +21,16 @@ function init() {
   document.getElementById('app').innerHTML = `
     <div class="d-flex justify-content-between align-items-start mb-4">
       <div><h1 class="h3 fw-bold mb-1">Halo, ${esc(user.name.split(' ')[0])} 👋</h1><p class="text-secondary small mb-0">Temukan ruang untuk kegiatanmu.</p></div>
-      <a href="notifikasi.html" class="btn position-relative p-2" aria-label="Notifikasi${unread ? `, ${unread} belum dibaca` : ''}"><i class="bi bi-bell fs-4"></i>${unread ? `<span class="badge text-bg-primary rounded-pill position-absolute top-0 end-0">${unread}</span>` : ''}</a>
+      <a href="notifikasi.html" class="btn position-relative p-2" aria-label="Notifikasi${unread ? `, ${unread} belum dibaca` : ''}"><i aria-hidden="true" class="bi bi-bell fs-4"></i>${unread ? `<span class="badge text-bg-primary rounded-pill position-absolute top-0 end-0">${unread}</span>` : ''}</a>
     </div>
     <div class="card bg-soft border-0 mb-3"><div class="card-body d-flex gap-3 align-items-center">
-      <i class="bi bi-calendar3 text-primary fs-5"></i>
+      <i aria-hidden="true" class="bi bi-calendar3 text-primary fs-5"></i>
       <div><div class="fw-semibold small">Mulai dari jadwal kegiatan</div><div class="small text-secondary">Pilih tanggal dan waktu peminjaman.</div></div>
     </div></div>
     <div class="card mb-3"><div class="card-body">
       <div class="d-flex justify-content-between align-items-center mb-2">
         <h2 class="h6 fw-bold mb-0" id="month"></h2>
-        <div><button type="button" class="btn btn-link p-2" id="prev" aria-label="Bulan sebelumnya"><i class="bi bi-chevron-left"></i></button><button type="button" class="btn btn-link p-2" id="next" aria-label="Bulan berikutnya"><i class="bi bi-chevron-right"></i></button></div>
+        <div><button type="button" class="btn btn-link p-2" id="prev" aria-label="Bulan sebelumnya"><i aria-hidden="true" class="bi bi-chevron-left"></i></button><button type="button" class="btn btn-link p-2" id="next" aria-label="Bulan berikutnya"><i aria-hidden="true" class="bi bi-chevron-right"></i></button></div>
       </div>
       <div class="rl-cal" id="cal"></div>
     </div></div>

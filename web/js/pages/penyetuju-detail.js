@@ -29,7 +29,7 @@ function init() {
     ? `<span class="badge badge-status badge-menunggu px-3 py-2">Menunggu ${esc(STAGE_LABELS[turn])}</span>` : statusChip(req.status);
 
   $('content').innerHTML = `
-    <a href="pengajuan.html" class="small fw-semibold text-decoration-none d-inline-block mb-3"><i class="bi bi-chevron-left me-2"></i>Pengajuan Masuk</a>
+    <a href="pengajuan.html" class="small fw-semibold text-decoration-none d-inline-block mb-3"><i aria-hidden="true" class="bi bi-chevron-left me-2"></i>Pengajuan Masuk</a>
     <div class="d-flex justify-content-between align-items-start mb-4">
       <div><h1 class="fs-2 fw-bold mb-1">Detail Persetujuan</h1>
         <p class="text-secondary mb-0">${esc(req.id)} &nbsp;•&nbsp; Diajukan ${formatDateLong(req.createdAt.slice(0, 10))}, ${formatTime(req.createdAt.slice(11, 16))} WIB</p></div>
@@ -49,10 +49,10 @@ function init() {
         </div></div>
         <div class="card"><div class="card-body p-4">
           <h2 class="fs-5 fw-semibold mb-3">Dokumen pendukung</h2>
-          ${a ? `<div class="rounded-3 bg-body p-2 d-flex align-items-center gap-3"><i class="bi bi-file-earmark-text fs-4 text-primary ms-2"></i>
+          ${a ? `<div class="rounded-3 bg-body p-2 d-flex align-items-center gap-3"><i aria-hidden="true" class="bi bi-file-earmark-text fs-4 text-primary ms-2"></i>
               <div class="flex-grow-1"><div class="small fw-semibold">${esc(a.name)}</div><div class="small text-secondary">${esc(a.name.split('.').pop().toUpperCase())} &nbsp;•&nbsp; ${formatSize(a.size)} &nbsp;•&nbsp; Diunggah ${formatDateShort(req.createdAt.slice(0, 10))}</div></div>
-              <button type="button" class="btn btn-soft btn-sm px-4" data-bs-toggle="modal" data-bs-target="#m-preview"><i class="bi bi-eye me-2"></i>Pratinjau</button>
-              <button type="button" class="btn btn-soft btn-sm px-4" id="download"><i class="bi bi-download me-2"></i>Unduh</button></div>`
+              <button type="button" class="btn btn-soft btn-sm px-4" data-bs-toggle="modal" data-bs-target="#m-preview"><i aria-hidden="true" class="bi bi-eye me-2"></i>Pratinjau</button>
+              <button type="button" class="btn btn-soft btn-sm px-4" id="download"><i aria-hidden="true" class="bi bi-download me-2"></i>Unduh</button></div>`
     : '<p class="small text-secondary mb-0">Tidak ada dokumen pendukung.</p>'}
           ${req.previousAttachments?.length ? `<p class="small text-secondary mt-2 mb-0">Dokumen sebelumnya: ${req.previousAttachments.map(x => esc(x.name)).join(', ')}</p>` : ''}
         </div></div>
