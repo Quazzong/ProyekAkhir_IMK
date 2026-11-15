@@ -4,7 +4,7 @@ import { formatDateShort, formatRange, formatSize, nowLocal } from '../domain/da
 import { resubmit } from '../domain/request-status.js';
 import { buildNotifications } from '../domain/notifications.js';
 import { revisionStage, revisionHint } from '../domain/request-view.js';
-import { field, select, textarea, button, confirmModal, esc } from '../ui/components.js';
+import { field, select, textarea, button, confirmModal, esc, roomPhoto } from '../ui/components.js';
 
 const user = requireSession('pemohon', 'masuk.html');
 // ajukan.html?id=RL-… = perbaikan pengajuan Perlu Revisi (jadwal & ruangan tetap, data lama terisi).
@@ -34,7 +34,7 @@ function init() {
     <p class="small text-secondary mb-3" id="sub">${editReq ? `${esc(editReq.id)} &nbsp;•&nbsp; Data sebelumnya tetap tersimpan` : 'Langkah 1 dari 2 &nbsp;•&nbsp; Lengkapi informasi kegiatan'}</p>
     <div class="row g-lg-4"><div class="col-lg-4"><div class="rl-sticky-lg rl-no-nav">
     <div class="card mb-4"><div class="card-body d-flex gap-3">
-      <div class="rl-photo-sm"><i aria-hidden="true" class="bi bi-building"></i></div>
+      ${roomPhoto(room.id, 'rl-photo-sm')}
       <div><div class="fw-semibold">${esc(room.name)}</div><div class="small text-secondary">Kapasitas ${room.capacity} orang</div>
         <div class="small fw-semibold text-primary mt-2">${formatDateShort(slot.date)}</div><div class="small text-primary">${formatRange(slot.start, slot.end)} WIB</div></div>
     </div></div>

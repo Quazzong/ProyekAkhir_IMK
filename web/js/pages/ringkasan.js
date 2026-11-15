@@ -4,7 +4,7 @@ import { submit } from '../domain/availability.js';
 import { nextRequestId } from '../domain/request-status.js';
 import { buildNotifications } from '../domain/notifications.js';
 import { formatDateLong, formatRange, formatSize, nowLocal } from '../domain/dates.js';
-import { button, esc } from '../ui/components.js';
+import { button, esc, roomPhoto } from '../ui/components.js';
 
 const user = requireSession('pemohon', 'masuk.html');
 const draft = getDraft();
@@ -28,7 +28,7 @@ function init() {
       </header>
       <p class="small text-secondary mb-3">Langkah 2 dari 2 &nbsp;•&nbsp; Periksa sebelum dikirim</p>
       <div class="row g-lg-4"><div class="col-lg-5">
-      <div class="rl-photo mb-3"><i aria-hidden="true" class="bi bi-building"></i></div>
+      ${roomPhoto(room.id, 'rl-photo w-100 mb-3')}
       <h2 class="fs-4 fw-bold mb-0">${esc(room.name)}</h2>
       <p class="small text-secondary mb-3">${[room.location, `${room.capacity} orang`].filter(Boolean).join(' &nbsp;•&nbsp; ')}</p>
       </div><div class="col-lg-7">

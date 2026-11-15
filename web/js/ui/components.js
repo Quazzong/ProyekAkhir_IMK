@@ -41,9 +41,15 @@ export function select({ id, label: text, options, placeholder = '', required = 
     `${feedback(id, error)}</div>`;
 }
 
+const PHOTOS = new URL('../../img/rooms/', import.meta.url); // relatif ke modul, aman dari /penyetuju/
+// Foto dari Figma frame C, satu per ruangan (img/rooms/{roomId}.jpg). Nama ruangan selalu tampil di sebelahnya → alt kosong.
+export const roomPhoto = (roomId, cls) => roomId
+  ? `<img src="${new URL(`${roomId}.jpg`, PHOTOS)}" alt="" class="${cls} object-fit-cover">`
+  : `<div class="${cls}"><i aria-hidden="true" class="bi bi-building"></i></div>`;
+
 export const roomCard = ({ id = '', name, capacity, facilities = '' }) =>
   `<div class="card mb-3" ${id ? `data-room="${esc(id)}"` : ''}><div class="card-body d-flex gap-3">` +
-  `<div class="rl-photo rl-photo-xs"><i aria-hidden="true" class="bi bi-building"></i></div>` +
+  roomPhoto(id, 'rl-photo rl-photo-xs') +
   `<div class="flex-grow-1"><div class="fw-semibold">${esc(name)}</div>` +
   `<div class="small text-secondary">${capacity} orang · <span class="text-success-emphasis">Tersedia</span></div>` +
   `<div class="small text-secondary">${esc(facilities)}</div>` +

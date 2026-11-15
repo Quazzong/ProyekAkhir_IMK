@@ -2,7 +2,7 @@ import { requireSession, getState, update, setFlash } from '../store.js';
 import { actionsFor, cancel } from '../domain/request-status.js';
 import { stepperSteps, flowNote } from '../domain/request-view.js';
 import { formatDateShort, formatRange, formatDateTime } from '../domain/dates.js';
-import { statusChip, stepper, confirmModal, esc } from '../ui/components.js';
+import { statusChip, stepper, confirmModal, esc, roomPhoto } from '../ui/components.js';
 
 const user = requireSession('pemohon', 'masuk.html');
 const id = new URLSearchParams(location.search).get('id');
@@ -26,7 +26,7 @@ function init() {
     <p class="small text-secondary mb-2">${esc(req.id)} &nbsp;•&nbsp; Diajukan ${formatDateTime(req.createdAt)}</p>
     <div class="mb-3">${statusChip(req.status)}</div>
     <div class="row g-lg-4"><div class="col-lg-7">
-    <div class="rl-photo mb-3"><i aria-hidden="true" class="bi bi-building"></i></div>
+    ${roomPhoto(room.id, 'rl-photo w-100 mb-3')}
     <h2 class="fs-4 fw-bold mb-1">${esc(room.name)}</h2>
     <p class="small fw-medium text-primary mb-3">${formatDateShort(req.date)} &nbsp;•&nbsp; ${formatRange(req.start, req.end)} WIB</p>
     <h3 class="h6 fw-semibold mb-1">${esc(req.name)}</h3>

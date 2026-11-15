@@ -4,7 +4,7 @@ import { STAGES, STAGE_LABELS, currentStage, validateDecisionNote } from '../dom
 import { STAGE_INFO, applyDecision, decisionResult } from '../domain/approval.js';
 import { portalSteps } from '../domain/request-view.js';
 import { formatDateLong, formatDateWithDay, formatRange, formatTime, formatSize, formatDateShort, nowLocal } from '../domain/dates.js';
-import { statusChip, stepperH, resultModal, esc, showToast } from '../ui/components.js';
+import { statusChip, stepperH, resultModal, esc, showToast, roomPhoto } from '../ui/components.js';
 
 const user = mountPortal({ active: 'Pengajuan Masuk', crumbs: ['Pengajuan Masuk', 'Detail'], roleChip: false });
 const id = new URLSearchParams(location.search).get('id');
@@ -40,7 +40,7 @@ function init() {
       <div class="col-8 d-flex flex-column gap-4">
         <div class="card"><div class="card-body p-4">
           <h2 class="fs-5 fw-semibold mb-3">Informasi peminjaman</h2>
-          <div class="d-flex gap-3 pb-3 mb-2 border-bottom"><div class="rl-photo-md"><i aria-hidden="true" class="bi bi-building"></i></div>
+          <div class="d-flex gap-3 pb-3 mb-2 border-bottom">${roomPhoto(room.id, 'rl-photo-md')}
             <div><div class="fs-4 fw-semibold">${esc(room.name)}</div>
               <div class="small text-secondary">${[room.location, `Kapasitas ${room.capacity} orang`].filter(Boolean).map(esc).join(' &nbsp;•&nbsp; ')}</div>
               <div class="text-primary mt-2">${formatDateWithDay(req.date)} &nbsp;•&nbsp; ${formatRange(req.start, req.end)} WIB</div></div></div>
