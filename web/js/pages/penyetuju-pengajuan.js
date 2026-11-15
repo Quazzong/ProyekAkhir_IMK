@@ -24,7 +24,7 @@ function init() {
     <h1 class="fs-2 fw-bold mb-2">Pengajuan Masuk</h1>
     <p class="text-secondary mb-4">${esc(info.intro)}</p>
     <div class="rounded-3 bg-soft p-3 mb-4 d-flex gap-3"><i aria-hidden="true" class="bi bi-file-earmark-text fs-5 text-primary"></i>
-      <div><div class="fw-semibold">Antrean ${esc(label)} · Tingkat ${info.level}</div><div class="small text-secondary">${esc(info.queueNote)}</div></div></div>
+      <div><div class="fw-semibold">Antrean ${esc(label)}</div><div class="small text-secondary">${esc(info.queueNote)}</div></div></div>
     <div class="card mb-4"><div class="card-body row g-3">
       <div class="col-6 position-relative"><i aria-hidden="true" class="bi bi-search position-absolute top-50 translate-middle-y ms-3 text-secondary"></i>
         <input id="q" class="form-control ps-5 bg-body border-0" placeholder="Cari nama pemohon, ruangan, atau ID pengajuan" aria-label="Cari nama pemohon, ruangan, atau ID pengajuan"></div>

@@ -1,7 +1,6 @@
 // Kerangka halaman portal (penyetuju & keamanan): sidebar + bilah atas + area konten #content.
 import { requireSession, unreadCount, popFlash, update } from '../store.js';
 import { STAGE_LABELS } from '../domain/request-status.js';
-import { STAGE_INFO } from '../domain/approval.js';
 import { markAllRead } from '../domain/notifications.js';
 import { sidebar, esc, showToast, portalTable, statusChip, infoModal, bindLogout } from './components.js';
 import { formatDateShort, formatRange } from '../domain/dates.js';
@@ -17,7 +16,7 @@ const ITEMS = [
 const KINDS = {
   penyetuju: {
     title: 'Portal Penyetuju', items: ITEMS, bell: 'pengajuan.html',
-    role: u => STAGE_LABELS[u.role], level: u => `Tingkat ${STAGE_INFO[u.role].level} dari 3  •  Aktif`, sub: u => `Penyetuju ${STAGE_LABELS[u.role]}`,
+    role: u => STAGE_LABELS[u.role], level: () => '', sub: u => `Penyetuju ${STAGE_LABELS[u.role]}`,
     help: [
       'Pengajuan diproses berurutan: Sarpras → Kemahasiswaan → Kabag Umum. Setujui untuk meneruskan ke tahap berikutnya.',
       'Minta Revisi atau Tolak wajib disertai catatan dan menghentikan proses pada tahap Anda. Pemohon langsung menerima notifikasi.',

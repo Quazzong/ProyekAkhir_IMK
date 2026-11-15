@@ -195,7 +195,7 @@ export const portalTable = (columns, rows) =>
   `<div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead class="table-light"><tr>${columns.map(c => `<th scope="col" class="small text-secondary">${esc(c)}</th>`).join('')}</tr></thead>` +
   `<tbody>${rows.map(r => `<tr>${r.map(c => `<td class="small">${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
 
-// level: 'Tingkat 1 dari 3  •  Aktif'. Item tanpa layar (Riwayat Keputusan, Pengaturan) = href '#'.
+// level: teks kecil opsional di bawah nama peran (keamanan). Penyetuju tanpa tingkat (sistem sudah tahu urutan).
 export const sidebar = ({ title = 'Portal Penyetuju', role, level = '', items, active }) =>
   `<aside class="rl-sidebar d-flex flex-column p-3"><div class="fs-4 fw-bold mb-1"><i aria-hidden="true" class="bi bi-building me-2"></i>RoomLink</div><div class="small fw-semibold mb-4 text-uppercase rl-sidebar-muted">${esc(title)}</div>` +
   `<div class="rounded-3 p-3 mb-4 rl-sidebar-role"><div class="fw-semibold">${esc(role)}</div>${level ? `<div class="small rl-sidebar-muted">${esc(level)}</div>` : ''}</div>` +

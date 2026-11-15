@@ -1,6 +1,5 @@
 import { mountPortal } from '../ui/portal.js';
 import { STAGE_LABELS } from '../domain/request-status.js';
-import { STAGE_INFO } from '../domain/approval.js';
 import { esc } from '../ui/components.js';
 
 const user = mountPortal({ active: 'Pengaturan', crumbs: ['Pengaturan'] });
@@ -17,7 +16,6 @@ function init() {
         <dl class="row mb-0">
           ${row('Nama', esc(user.name))}
           ${row('Peran', `Penyetuju ${esc(STAGE_LABELS[user.role])}`)}
-          ${row('Tingkat', `Tingkat ${STAGE_INFO[user.role].level} dari 3`)}
           ${row('Email', esc(user.login))}
         </dl>
         <p class="small text-secondary mb-0 mt-2">Data akun mengikuti akun kampus dan tidak dapat diubah di sini.</p>
