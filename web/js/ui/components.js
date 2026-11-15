@@ -42,7 +42,7 @@ export const roomCard = ({ id = '', name, capacity, imageUrl = '', facilities = 
   `<div class="card mb-3" ${id ? `data-room="${esc(id)}"` : ''}><div class="card-body d-flex gap-3">` +
   `<div class="rounded-3 bg-body-secondary flex-none" style="width:72px;height:72px;background:center/cover url('${esc(imageUrl)}')"></div>` +
   `<div class="flex-grow-1"><div class="fw-semibold">${esc(name)}</div>` +
-  `<div class="small text-secondary">${capacity} orang · <span class="text-success">Tersedia</span></div>` +
+  `<div class="small text-secondary">${capacity} orang · <span class="text-success-emphasis">Tersedia</span></div>` +
   `<div class="small text-secondary">${esc(facilities)}</div>` +
   `<a href="#" class="btn btn-soft btn-sm mt-2 w-100">Pilih Ruangan <i class="bi bi-arrow-right"></i></a></div></div></div>`;
 
@@ -89,7 +89,7 @@ export const confirmModal = ({ id, title, body, note = '', cancel, confirm, dang
 // Panel hasil keputusan penyetuju. r: {tone, title, lines[], cta}; href = tujuan tombol.
 export const resultModal = ({ id, r, href }) =>
   `<div class="modal fade" id="${id}" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="${id}-t" aria-hidden="true"><div class="modal-dialog modal-dialog-centered rl-modal-result"><div class="modal-content p-4">` +
-  `<div class="small fw-semibold text-${r.tone} mb-3">ROOMLINK &nbsp;/&nbsp; KEPUTUSAN PENGAJUAN</div>` +
+  `<div class="small fw-semibold text-${r.tone}-emphasis mb-3">ROOMLINK &nbsp;/&nbsp; KEPUTUSAN PENGAJUAN</div>` +
   `<h2 class="fs-3 fw-bold mb-4" id="${id}-t">${esc(r.title)}</h2><p class="text-secondary mb-4">${r.lines.map(esc).join('<br>')}</p>` +
   `<a href="${esc(href)}" ${href === '#' ? 'data-bs-dismiss="modal"' : ''} class="btn btn-${r.tone === 'danger' ? 'primary' : r.tone} w-100 text-start">${esc(r.cta)}</a></div></div></div>`;
 
@@ -131,7 +131,7 @@ export const stepperH = steps =>
   `<div class="card"><div class="card-body d-flex align-items-center gap-3">${steps.map((s, i) =>
     `${i ? '<i class="bi bi-arrow-right fs-5 text-secondary mx-auto"></i>' : ''}<div class="d-flex align-items-center gap-3 flex-grow-1">` +
     `<span class="rl-step-dot ${slug(s.status)}">${s.status === 'Disetujui' ? '<i class="bi bi-check-lg"></i>' : i + 1}</span>` +
-    `<div><div class="fw-semibold">${esc(s.name)}</div><div class="small ${s.status === 'Disetujui' ? 'text-success' : ['Ditolak', 'Perlu Revisi'].includes(s.status) ? 'text-danger' : 'text-secondary'}">${esc(s.sub)}</div></div></div>`).join('')}</div></div>`;
+    `<div><div class="fw-semibold">${esc(s.name)}</div><div class="small ${s.status === 'Disetujui' ? 'text-success-emphasis' : ['Ditolak', 'Perlu Revisi'].includes(s.status) ? 'text-danger' : 'text-secondary'}">${esc(s.sub)}</div></div></div>`).join('')}</div></div>`;
 
 export function showToast(message) {
   let box = document.getElementById('toast-box');

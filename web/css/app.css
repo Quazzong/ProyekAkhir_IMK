@@ -16,7 +16,7 @@
 /* Linimasa persetujuan 3 tahap */
 .rl-step{position:relative;display:flex;gap:12px;padding-bottom:16px}
 .rl-step:not(:last-child)::before{content:"";position:absolute;left:13px;top:30px;bottom:2px;width:2px;background:var(--bs-border-color)}
-.rl-step-dot{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:600;background:var(--rl-neutral-bg);color:var(--bs-secondary-color)}
+.rl-step-dot{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:600;background:var(--rl-neutral-bg);color:var(--rl-neutral-fg)}
 .rl-step-dot.disetujui{background:var(--rl-ok-bg);color:var(--rl-ok-fg)}
 .rl-step-dot.menunggu{background:var(--rl-soft-bg);color:var(--bs-primary)}
 .rl-step-dot.ditolak,.rl-step-dot.perlu-revisi{background:var(--rl-soft-bg);color:var(--bs-danger)}
@@ -61,11 +61,11 @@
 .rl-stat-icon{width:40px;height:40px;border-radius:var(--bs-border-radius);display:grid;place-items:center;font-size:1.1rem}
 .rl-doc-preview{background:var(--bs-body-bg);border-radius:var(--bs-border-radius-lg);min-height:420px}
 .rl-photo-md{width:140px;height:90px;flex:none;background:var(--bs-secondary-bg);border-radius:var(--bs-border-radius)}
-.btn-danger-soft{--bs-btn-color:var(--bs-danger);--bs-btn-bg:var(--rl-danger-bg);--bs-btn-border-color:var(--rl-danger-bg);--bs-btn-hover-color:var(--bs-danger);--bs-btn-hover-bg:var(--rl-danger-bg);--bs-btn-hover-border-color:var(--bs-danger);--bs-btn-active-bg:var(--rl-danger-bg);--bs-btn-active-color:var(--bs-danger)}
+.btn-danger-soft{--bs-btn-color:var(--rl-danger-fg);--bs-btn-bg:var(--rl-danger-bg);--bs-btn-border-color:var(--rl-danger-bg);--bs-btn-hover-color:var(--rl-danger-fg);--bs-btn-hover-bg:var(--rl-danger-bg);--bs-btn-hover-border-color:var(--rl-danger-fg);--bs-btn-active-bg:var(--rl-danger-bg);--bs-btn-active-color:var(--rl-danger-fg)}
 .rl-modal-result{max-width:480px}
 .rl-ok-box{background:var(--rl-ok-bg);color:var(--rl-ok-fg)}
 /* Tab Aktif/Riwayat: wadah abu-abu, tab aktif putih */
-.rl-tabs{background:var(--bs-border-color);border-radius:10px;padding:4px}
-.rl-tabs .nav-link{color:var(--bs-secondary-color);font-weight:600;border-radius:8px;min-height:38px}
+.rl-tabs{background:var(--rl-neutral-bg);border-radius:10px;padding:4px}
+.rl-tabs .nav-link{color:var(--rl-neutral-fg);font-weight:600;border-radius:8px;min-height:44px}
 .rl-tabs .nav-link.active{background:var(--bs-card-bg);color:var(--bs-primary)}
 .rl-fab-space{padding-bottom:72px} /* ruang agar FAB tidak menutupi kartu terakhir */

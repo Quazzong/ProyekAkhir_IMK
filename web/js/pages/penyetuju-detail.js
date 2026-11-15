@@ -81,7 +81,7 @@ function init() {
       <button type="button" class="btn btn-soft btn-lg px-4" data-act="revise">Minta Revisi</button>
       <button type="button" class="btn btn-primary btn-lg px-5" data-act="approve">Setujui</button>
     </div></div>
-    ${prev ? `<p class="small text-success mt-2">${esc(STAGE_LABELS[prev])} telah menyetujui. Pengajuan kini siap ditinjau ${esc(label)}.</p>` : ''}` : ''}`;
+    ${prev ? `<p class="small text-success-emphasis mt-2">${esc(STAGE_LABELS[prev])} telah menyetujui. Pengajuan kini siap ditinjau ${esc(label)}.</p>` : ''}` : ''}`;
 
   // Pratinjau dokumen: isi contoh dari data pengajuan.
   $('modal-box').innerHTML = a ? `<div class="modal fade" id="m-preview" tabindex="-1" aria-labelledby="m-preview-t" aria-hidden="true"><div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content p-4">

@@ -19,6 +19,11 @@
   --bs-danger:#DC2626;   --bs-danger-rgb:220,38,38;
   --bs-link-color:#2563EB; --bs-link-color-rgb:37,99,235;
   --bs-card-bg:#FFFFFF;
+  --bs-secondary-rgb:100,116,139;
+  --bs-primary-text-emphasis:#1D4ED8; --bs-success-text-emphasis:#166534; --bs-danger-text-emphasis:#B91C1C;
+  --bs-form-invalid-color:#B91C1C; --bs-form-invalid-border-color:#DC2626;
+  --bs-progress-bar-bg:#2563EB;
+  --bs-pagination-active-bg:#2563EB; --bs-pagination-active-border-color:#2563EB; --bs-pagination-color:#2563EB; --bs-pagination-hover-color:#1D4ED8; --bs-pagination-focus-color:#1D4ED8;
   --rl-space-1:4px; --rl-space-2:8px; --rl-space-3:12px; --rl-space-4:16px; --rl-space-5:24px; --rl-space-6:32px;
 }
 .btn-primary{
@@ -35,7 +40,7 @@
   --bs-secondary-color:#64748B; --bs-secondary-color-rgb:100,116,139;
   --rl-soft-bg:#EFF6FF;       /* tombol sekunder, chip Perlu Revisi */
   --rl-disabled-bg:#E2E8F0; --rl-disabled-fg:#64748B; --rl-disabled-day:#CBD5E1;
-  --rl-neutral-bg:#F1F5F9;    /* nomor tahap belum aktif, Belum/Tidak diproses */
+  --rl-neutral-bg:#F1F5F9; --rl-neutral-fg:#475569; --rl-danger-fg:#B91C1C;    /* nomor tahap belum aktif, Belum/Tidak diproses */
   --rl-chip-radius:7px;
   --rl-ok-bg:#DCFCE7; --rl-ok-fg:#166534; --rl-danger-bg:#FEE2E2;
   --rl-warn-bg:#FEF3C7; --rl-warn-fg:#92400E;
@@ -57,3 +62,9 @@
 /* Netral slate. */
 .badge-dibatalkan,.badge-belum-diproses,.badge-tidak-diproses{background:#F1F5F9;color:#475569}
 .badge-filter{background:#EFF6FF;color:#2563EB}
+
+/* Warna bawaan Bootstrap yang di-compile (bukan variabel): ganti ke token. */
+.form-control:focus,.form-select:focus{border-color:#93C5FD;box-shadow:0 0 0 .25rem rgba(37,99,235,.25)}
+.form-check-input:checked{background-color:#2563EB;border-color:#2563EB}
+.form-check-input:focus{border-color:#93C5FD;box-shadow:0 0 0 .25rem rgba(37,99,235,.25)}
+.btn-outline-secondary{--bs-btn-color:#475569;--bs-btn-border-color:#E2E8F0;--bs-btn-hover-color:#172554;--bs-btn-hover-bg:#F1F5F9;--bs-btn-hover-border-color:#CBD5E1;--bs-btn-active-color:#172554;--bs-btn-active-bg:#E2E8F0;--bs-btn-active-border-color:#CBD5E1}

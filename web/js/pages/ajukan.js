@@ -66,7 +66,7 @@ function init() {
     const body = state === 'progress'
       ? `<div class="small fw-semibold mb-2">${esc(msg)}</div><div class="progress" role="progressbar" aria-label="Mengunggah" style="height:6px"><div class="progress-bar" id="bar" style="width:0%"></div></div>`
       : a
-        ? `<div class="d-flex justify-content-between"><div><div class="small fw-semibold text-primary">${esc(a.name)}</div><div class="small text-secondary">PDF, DOC, JPG &nbsp;•&nbsp; Maks. 10 MB</div><div class="small text-success">${formatSize(a.size)} &nbsp; ✓ Berhasil diunggah</div></div><button type="button" class="btn btn-link btn-sm text-danger align-self-start" id="rm">Hapus</button></div>`
+        ? `<div class="d-flex justify-content-between"><div><div class="small fw-semibold text-primary">${esc(a.name)}</div><div class="small text-secondary">PDF, DOC, JPG &nbsp;•&nbsp; Maks. 10 MB</div><div class="small text-success-emphasis">${formatSize(a.size)} &nbsp; ✓ Berhasil diunggah</div></div><button type="button" class="btn btn-link btn-sm text-danger align-self-start" id="rm">Hapus</button></div>`
         : `<label for="file" class="d-flex gap-3 align-items-center mb-0" style="cursor:pointer"><i class="bi bi-cloud-arrow-up fs-4 text-primary"></i><span><span class="d-block small fw-semibold text-primary">Unggah dokumen</span><span class="d-block small text-secondary">PDF, DOC, JPG &nbsp;•&nbsp; Maks. 10 MB</span></span></label>`;
     $('upload').innerHTML = `<div class="rl-upload p-3">${body}</div><input type="file" id="file" class="d-none" accept=".pdf,.doc,.docx,.jpg,.jpeg">` +
       `<div class="small text-danger mt-1" id="file-err">${esc(state === 'error' ? msg : '')}</div>`;
