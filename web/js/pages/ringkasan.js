@@ -27,9 +27,11 @@ function init() {
         <h1 class="h5 fw-bold mb-0">Ringkasan pengajuan</h1>
       </header>
       <p class="small text-secondary mb-3">Langkah 2 dari 2 &nbsp;•&nbsp; Periksa sebelum dikirim</p>
+      <div class="row g-lg-4"><div class="col-lg-5">
       <div class="rl-photo mb-3"><i aria-hidden="true" class="bi bi-building"></i></div>
       <h2 class="fs-4 fw-bold mb-0">${esc(room.name)}</h2>
       <p class="small text-secondary mb-3">${[room.location, `${room.capacity} orang`].filter(Boolean).join(' &nbsp;•&nbsp; ')}</p>
+      </div><div class="col-lg-7">
       ${row('Jadwal', `${formatDateLong(draft.date)} · ${formatRange(draft.start, draft.end)} WIB`)}
       ${row('Nama kegiatan', esc(form.name))}
       ${row('Jenis &amp; peserta', `${esc(form.kind)} &nbsp;·&nbsp; ${esc(form.attendees)} orang`)}
@@ -37,10 +39,11 @@ function init() {
       ${row('Penanggung jawab', `${esc(user.name)} &nbsp;·&nbsp; ${esc(form.contact)}`)}
       ${form.attachment ? row('Dokumen', `${esc(form.attachment.name)} &nbsp;·&nbsp; ${formatSize(form.attachment.size)}`) : ''}
       <div class="rounded-3 bg-soft text-primary small p-3 mb-3">Jadwal diperiksa kembali saat dikirim.<br>Pengajuan diteruskan ke Sarpras jika tersedia.</div>
-      <div class="d-grid gap-2">
+      <div class="d-grid d-lg-flex justify-content-lg-end gap-2 rl-cta">
         ${loading ? '<button type="button" class="btn btn-soft" disabled>Ubah Informasi</button>' : '<a href="ajukan.html" class="btn btn-soft">Ubah Informasi</a>'}
-        ${button(loading ? 'Memproses…' : 'Kirim Pengajuan', { id: 'send', state: loading ? 'loading' : 'default' })}
-      </div>`;
+        ${button(loading ? 'Memproses…' : 'Kirim Pengajuan', { id: 'send', state: loading ? 'loading' : 'default', full: false })}
+      </div>
+      </div></div>`;
     $('send').onclick = send;
   }
 

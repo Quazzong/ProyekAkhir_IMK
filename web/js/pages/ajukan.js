@@ -32,11 +32,13 @@ function init() {
       <h1 class="h5 fw-bold mb-0">${editReq ? 'Perbaiki pengajuan' : 'Formulir pengajuan'}</h1>
     </header>
     <p class="small text-secondary mb-3" id="sub">${editReq ? `${esc(editReq.id)} &nbsp;•&nbsp; Data sebelumnya tetap tersimpan` : 'Langkah 1 dari 2 &nbsp;•&nbsp; Lengkapi informasi kegiatan'}</p>
+    <div class="row g-lg-4"><div class="col-lg-4"><div class="rl-sticky-lg rl-no-nav">
     <div class="card mb-4"><div class="card-body d-flex gap-3">
       <div class="rl-photo-sm"><i aria-hidden="true" class="bi bi-building"></i></div>
       <div><div class="fw-semibold">${esc(room.name)}</div><div class="small text-secondary">Kapasitas ${room.capacity} orang</div>
         <div class="small fw-semibold text-primary mt-2">${formatDateShort(slot.date)}</div><div class="small text-primary">${formatRange(slot.start, slot.end)} WIB</div></div>
     </div></div>
+    </div></div><div class="col-lg-8">
     <form id="form" novalidate>
       ${field({ id: 'name', label: 'Nama kegiatan', required: true, placeholder: 'Contoh: Seminar Karier Digital 2026', value: f.name })}
       ${select({ id: 'kind', label: 'Jenis kegiatan', required: true, placeholder: 'Pilih kegiatan', options: KINDS, value: f.kind })}
@@ -47,8 +49,9 @@ function init() {
       ${editReq
     ? `<div class="rounded-3 bg-soft text-primary small p-3 mb-3">${esc(revisionHint(editReq))}<br>Dokumen lama tetap tersimpan.</div>`
     : '<p class="small text-secondary">* Wajib diisi. Jadwal telah terisi otomatis.</p>'}
-      <div class="${editReq ? '' : 'mt-4'}" id="cta">${button(editReq ? 'Kirim Ulang Revisi' : 'Lanjutkan ke Ringkasan', { id: 'next', type: 'submit' })}</div>
-    </form>`;
+      <div class="${editReq ? '' : 'mt-4'} d-grid d-lg-flex justify-content-lg-end rl-cta" id="cta">${button(editReq ? 'Kirim Ulang Revisi' : 'Lanjutkan ke Ringkasan', { id: 'next', type: 'submit', full: false })}</div>
+    </form>
+    </div></div>`;
   $('modal-box').innerHTML = confirmModal({ id: 'm-discard', title: 'Buang isian?', body: 'Isian formulir yang sudah diisi akan dihapus.', cancel: 'Lanjut Mengisi', confirm: 'Buang', danger: true });
 
   const save = () => (editReq ? update(s => { s.revision = { id: editId, form: f }; }) : patchDraft({ form: f }));
@@ -118,7 +121,7 @@ function init() {
   function sendRevision() {
     if (busy) return;
     busy = true;
-    $('cta').innerHTML = button('Memproses…', { id: 'next', state: 'loading' });
+    $('cta').innerHTML = button('Memproses…', { id: 'next', state: 'loading', full: false });
     const stage = revisionStage(editReq);
     setTimeout(() => {
       update(s => {

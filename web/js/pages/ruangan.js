@@ -20,7 +20,7 @@ function init() {
   const slot = { date: draft.date, start: draft.start, end: draft.end };
   let filter = { type: draft.type ?? '', capacity: draft.capacity ?? '' };
 
-  $('nav').innerHTML = mainNav('Kalender', unreadCount(user.id));
+  $('nav').innerHTML = mainNav('Kalender', unreadCount(user.id), user);
   $('app').innerHTML = `
     <header class="d-flex align-items-center gap-2 mb-1">
       <a href="index.html" class="btn p-2" aria-label="Kembali ke Kalender"><i aria-hidden="true" class="bi bi-arrow-left fs-5"></i></a>
@@ -30,7 +30,7 @@ function init() {
     <div id="list"></div>`;
 
   function openSheet() {
-    $('sheet-box').innerHTML = filterSheet({ id: 'sheet', jenis: JENIS, kapasitas: KAP, jenisAktif: filter.type, kapasitasAktif: filter.capacity });
+    $('sheet-box').innerHTML = filterSheet({ id: 'sheet', jenis: JENIS, kapasitas: KAP, jenisAktif: filter.type, kapasitasAktif: filter.capacity, placement: matchMedia('(min-width: 992px)').matches ? 'end' : 'bottom' });
     const el = $('sheet');
     const sheet = new bootstrap.Offcanvas(el);
     el.addEventListener('hidden.bs.offcanvas', () => { sheet.dispose(); el.remove(); });
@@ -54,12 +54,12 @@ function init() {
       : '') +
       (chips.length ? `<div class="d-flex flex-wrap align-items-center gap-2 mb-3">${chips.join('')}<button type="button" class="btn btn-link btn-sm p-0" data-act="reset">Reset filter</button></div>` : '') +
       (rooms.length
-        ? rooms.map(r => roomCard(r)).join('')
-        : emptyState({
+        ? `<div class="row row-cols-1 row-cols-lg-2 gx-lg-3">${rooms.map(r => `<div class="col">${roomCard(r)}</div>`).join('')}</div>`
+        : `<div class="row"><div class="col-lg-5 mx-auto">${emptyState({
           icon: 'search', title: 'Belum ada ruangan tersedia',
           body: 'Semua ruangan telah terisi pada jadwal ini.\nCoba tanggal, waktu, atau filter lain.',
           actions: '<a href="index.html" class="btn btn-primary">Kembali ke Kalender</a><button type="button" class="btn btn-soft" data-act="filter">Ubah Filter</button>',
-        }));
+        })}</div></div>`);
   }
 
   $('list').onclick = e => {

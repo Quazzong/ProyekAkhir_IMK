@@ -1,16 +1,16 @@
 // Kerangka halaman portal penyetuju: sidebar + bilah atas + area konten #content.
-import { requireSession, logout, unreadCount, popFlash, update } from '../store.js';
+import { requireSession, unreadCount, popFlash, update } from '../store.js';
 import { STAGE_LABELS } from '../domain/request-status.js';
 import { STAGE_INFO } from '../domain/approval.js';
 import { markAllRead } from '../domain/notifications.js';
-import { sidebar, esc, showToast, portalTable, statusChip } from './components.js';
+import { sidebar, esc, showToast, portalTable, statusChip, infoModal, bindLogout } from './components.js';
 import { formatDateShort, formatRange } from '../domain/dates.js';
 
 const ITEMS = [
   { label: 'Dasbor', icon: 'grid', href: 'index.html' },
   { label: 'Pengajuan Masuk', icon: 'file-earmark-text', href: 'pengajuan.html' },
-  { label: 'Riwayat Keputusan', icon: 'clock-history', href: '#' }, // stub
-  { label: 'Pengaturan', icon: 'gear', href: '#' }, // stub
+  { label: 'Riwayat Keputusan', icon: 'clock-history', href: 'riwayat.html' },
+  { label: 'Pengaturan', icon: 'gear', href: 'pengaturan.html' },
 ];
 
 // crumbs: ['Dasbor'] atau ['Pengajuan Masuk', 'Detail']. roleChip: chip peran di kanan atas.
@@ -32,7 +32,12 @@ export function mountPortal({ active, crumbs, roleChip = true }) {
       </header>
       <main class="p-4 flex-grow-1" id="content"></main>
     </div>`;
-  document.querySelector('[data-role=logout]').onclick = e => { e.preventDefault(); logout(); location.href = '../masuk.html'; };
+  bindLogout('../masuk.html');
+  document.body.insertAdjacentHTML('beforeend', infoModal({ id: 'm-help', title: 'Butuh bantuan?', body: [
+    'Pengajuan diproses berurutan: Sarpras → Kemahasiswaan → Kabag Umum. Setujui untuk meneruskan ke tahap berikutnya.',
+    'Minta Revisi atau Tolak wajib disertai catatan dan menghentikan proses pada tahap Anda. Pemohon langsung menerima notifikasi.',
+    'Kendala akun atau sistem: hubungi Bagian Umum kampus.',
+  ] }));
   // Bel menandai dibaca lalu membuka antrean.
   document.getElementById('bell').onclick = () => update(s => { s.notifications = markAllRead(s.notifications, user.id); });
   const flash = popFlash();

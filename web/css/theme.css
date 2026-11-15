@@ -24,7 +24,8 @@
   --bs-form-invalid-color:#B91C1C; --bs-form-invalid-border-color:#DC2626;
   --bs-progress-bar-bg:#2563EB;
   --bs-pagination-active-bg:#2563EB; --bs-pagination-active-border-color:#2563EB; --bs-pagination-color:#2563EB; --bs-pagination-hover-color:#1D4ED8; --bs-pagination-focus-color:#1D4ED8;
-  --rl-space-4:16px;
+  --rl-space-4:16px; --rl-space-8:32px;
+  --rl-shell-lg:1140px; --rl-topnav-h:64px; /* desktop pemohon ≥992 */
 }
 .btn-primary{
   --bs-btn-bg:#2563EB;--bs-btn-border-color:#2563EB;

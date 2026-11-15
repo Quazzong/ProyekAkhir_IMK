@@ -27,6 +27,11 @@ export const STAGE_INFO = {
 export const reachedStage = (requests, stage) =>
   requests.filter(r => r.status !== 'Dibatalkan' && !['Belum diproses', 'Tidak diproses'].includes(r.stages[stage]));
 
+// Riwayat keputusan: pengajuan yang sudah diputuskan tahap ini, terbaru dulu (stageAt).
+export const decidedBy = (requests, stage) =>
+  requests.filter(r => r.status !== 'Dibatalkan' && ['Disetujui', 'Perlu Revisi', 'Ditolak'].includes(r.stages[stage]))
+    .sort((a, b) => (b.stageAt?.[stage] ?? '').localeCompare(a.stageAt?.[stage] ?? ''));
+
 export const pendingFor = (requests, stage) => requests.filter(r => currentStage(r) === stage);
 
 // month: 'YYYY-MM' (berdasarkan tanggal diajukan).

@@ -23,7 +23,7 @@ function init() {
     revisi: { ok: true, title: 'Revisi berhasil dikirim.', body: `Revisi Anda dikirim kembali ke ${STAGE_LABELS[r.stage]}.`, head, sub: req && keptApprovals(req, r.stage), back: 'pengajuan.html', cta: ['pengajuan.html', 'Lihat Pengajuan Saya'], foot: 'Lacak persetujuan melalui Pengajuan Saya.' },
   }[r.type];
 
-  document.getElementById('app').innerHTML = `
+  document.getElementById('app').innerHTML = `<div class="row"><div class="col-lg-6 mx-auto">
     <header class="d-flex align-items-center gap-2 mb-5">
       <a href="${v.back}" class="btn p-2" aria-label="Kembali"><i aria-hidden="true" class="bi bi-arrow-left fs-5"></i></a>
       <h1 class="h5 fw-bold mb-0">Hasil pengajuan</h1>
@@ -37,5 +37,6 @@ function init() {
     <div class="card mb-4"><div class="card-body"><div class="fw-semibold small">${v.head}</div>
       <div class="small text-secondary">${when}${v.sub ? `<br>${esc(v.sub)}` : ''}</div></div></div>
     <a href="${v.cta[0]}" class="btn btn-primary w-100">${v.cta[1]}</a>
-    <p class="small text-secondary mt-3">${v.foot}</p>`;
+    <p class="small text-secondary mt-3">${v.foot}</p>
+    </div></div>`;
 }

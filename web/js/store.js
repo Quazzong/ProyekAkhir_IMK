@@ -20,11 +20,12 @@ export function update(fn) {
   return s;
 }
 
-const currentUser = () => {
+export const currentUser = () => {
   const s = getState();
   return s.users.find(u => u.id === s.session) ?? null;
 };
-export const logout = () => update(s => { s.session = null; });
+// Data kerja milik akun (draft, revisi, hasil, toast) ikut dibuang agar tidak terbawa ke akun berikutnya.
+export const logout = () => update(s => { s.session = null; for (const k of ['draft', 'revision', 'result', 'flash']) delete s[k]; });
 
 // kind: 'pemohon' | 'penyetuju'. Tanpa sesi / salah peran → masuk.html.
 export function requireSession(kind, loginUrl = 'masuk.html') {

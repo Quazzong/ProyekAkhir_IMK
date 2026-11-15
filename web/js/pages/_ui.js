@@ -30,9 +30,16 @@ document.getElementById('app').innerHTML = [
   ui.resultModal({ id: 'm-tolak', href: '#', r: { tone: 'danger', title: 'Pengajuan ditolak.', lines: ['Sarpras menghentikan proses pada tahap 1.', '', 'Catatan: Kegiatan tidak sesuai izin peminjaman.', 'Pemohon menerima notifikasi keputusan.'], cta: 'Kembali ke Antrean' } }),
   ui.resultModal({ id: 'm-revisi-err', href: '#', r: { tone: 'success', title: 'Peminjaman disetujui.', lines: ['Kabag Umum telah menyelesaikan persetujuan akhir.', '', 'RL-2026-0184 kini berstatus Disetujui.', 'Pemohon dan petugas keamanan gedung telah diberi notifikasi.'], cta: 'Lihat Status Pemohon' } }),
   ui.filterSheet({ id: 'sheet', jenis: ['Ruang Kelas', 'Ruang Seminar', 'Laboratorium', 'Ruang Rapat'], kapasitas: ['Kurang dari 25 orang', '25–50 orang', 'Lebih dari 50 orang'], jenisAktif: 'Ruang Seminar', kapasitasAktif: 'Lebih dari 50 orang' }),
+  section('Menu akun pemohon & dialog info / keluar', `<div class="d-flex flex-wrap gap-2 align-items-center">${ui.profileMenu({ name: 'Alya Putri', position: 'Mahasiswa', unit: 'BEM' })}
+    <button class="btn btn-soft" data-bs-toggle="modal" data-bs-target="#m-info">Dialog info</button>
+    <button class="btn btn-soft" data-role="logout">Dialog keluar</button></div>`),
+  ui.infoModal({ id: 'm-info', title: 'Lupa kata sandi?', body: ['Kata sandi mengikuti akun kampus Anda.', 'Untuk mengatur ulang, hubungi layanan TI kampus.'] }),
   section('Bottom nav (3 tab + badge)', `<div class="position-relative" style="height:60px;max-width:430px">${ui.bottomNav([{ label: 'Kalender', icon: 'calendar3', href: '#', active: true }, { label: 'Pengajuan Saya', icon: 'file-earmark-text', href: '#' }, { label: 'Notifikasi', icon: 'bell', href: '#', count: 2 }]).replace('fixed-bottom', 'position-absolute bottom-0 w-100')}</div>`),
+  section('Navbar atas desktop (≥992)', `<div class="position-relative" style="height:72px">${ui.topNav([{ label: 'Kalender', icon: 'calendar3', href: '#', active: true }, { label: 'Pengajuan Saya', icon: 'file-earmark-text', href: '#' }, { label: 'Notifikasi', icon: 'bell', href: '#', count: 2 }], { name: 'Alya Putri', position: 'Mahasiswa', unit: 'BEM' }).replace('fixed-top', 'position-absolute top-0 w-100').replace('d-none d-lg-flex', 'd-flex')}</div>`),
   section('Sidebar portal', `<div style="height:420px;overflow:hidden">${ui.sidebar({ role: 'Sarpras', active: 'Dasbor', items: [{ label: 'Dasbor', icon: 'grid', href: '#' }, { label: 'Pengajuan Masuk', icon: 'file-earmark-text', href: '#' }, { label: 'Riwayat Keputusan', icon: 'clock-history', href: '#' }, { label: 'Pengaturan', icon: 'gear', href: '#' }] })}</div>`),
   section('Tabel portal', ui.portalTable(['No.', 'Nama Pemohon', 'Ruangan', 'Jenis Kegiatan', 'Tanggal', 'Jam', 'Status', 'Aksi'], [['01', 'Alya Putri', 'Ruang Seminar', 'Acara', '18 Nov 2026', '09.00–11.00', ui.statusChip('Menunggu'), '<a href="#">Lihat Detail →</a>']])),
 ].join('');
 
+// Katalog: konfirmasi keluar tampil, tapi tombol Keluar di dialog ini mengakhiri sesi bila ada.
+ui.bindLogout('masuk.html');
 document.getElementById('t-btn').onclick = () => ui.showToast('Pengajuan berhasil dibatalkan.');

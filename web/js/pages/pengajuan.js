@@ -1,7 +1,7 @@
 import { requireSession, getState, unreadCount, popFlash } from '../store.js';
 import { isHistory } from '../domain/request-status.js';
 import { formatDateShort, formatRange } from '../domain/dates.js';
-import { requestCard, tabs, mainNav, emptyState, showToast, esc } from '../ui/components.js';
+import { requestCard, tabs, mainNav, emptyState, showToast, esc, profileMenu, bindLogout } from '../ui/components.js';
 
 const user = requireSession('pemohon', 'masuk.html');
 if (user) init();
@@ -15,16 +15,22 @@ function init() {
   let tab = flash?.tab || 'Aktif';
   let query = '', status = '';
 
-  $('nav').innerHTML = mainNav('Pengajuan Saya', unreadCount(user.id));
+  $('nav').innerHTML = mainNav('Pengajuan Saya', unreadCount(user.id), user);
   $('app').innerHTML = `
-    <h1 class="fs-3 fw-bold mb-1">Pengajuan Saya</h1>
-    <p class="small text-secondary mb-3">Pantau kegiatan dan status persetujuan.</p>
-    <div id="tabs"></div>
-    <div class="position-relative mb-3"><i aria-hidden="true" class="bi bi-search position-absolute top-50 translate-middle-y ms-3 text-secondary"></i>
-      <input id="q" class="form-control ps-5" placeholder="Cari nama kegiatan atau ID" aria-label="Cari nama kegiatan atau ID"></div>
-    <select id="status" class="form-select form-select-sm w-auto border-0 bg-transparent text-primary fw-semibold ps-0 mb-2" aria-label="Filter status"></select>
+    <div class="d-flex justify-content-between align-items-start mb-3">
+      <div><h1 class="fs-3 fw-bold mb-1">Pengajuan Saya</h1><p class="small text-secondary mb-0">Pantau kegiatan dan status persetujuan.</p></div>
+      <div class="d-lg-none">${profileMenu(user)}</div>
+    </div>
+    <div class="row align-items-lg-center gx-lg-3">
+    <div class="col-lg-4" id="tabs"></div>
+    <div class="col-lg"><div class="position-relative mb-3"><i aria-hidden="true" class="bi bi-search position-absolute top-50 translate-middle-y ms-3 text-secondary"></i>
+      <input id="q" class="form-control ps-5" placeholder="Cari nama kegiatan atau ID" aria-label="Cari nama kegiatan atau ID"></div></div>
+    <div class="col-lg-auto"><select id="status" class="form-select form-select-sm w-auto border-0 bg-transparent text-primary fw-semibold ps-0 mb-2 mb-lg-3" aria-label="Filter status"></select></div>
+    </div>
     <div id="list" class="rl-fab-space"></div>
     <a href="index.html" class="btn btn-primary rl-fab" aria-label="Buat pengajuan baru"><i aria-hidden="true" class="bi bi-plus-lg fs-5"></i></a>`;
+
+  bindLogout('masuk.html');
 
   function render() {
     $('tabs').innerHTML = tabs(['Aktif', 'Riwayat'], tab);
@@ -35,9 +41,9 @@ function init() {
         (!q || r.name.toLowerCase().includes(q) || r.id.toLowerCase().includes(q)))
       .sort((a, b) => b.createdAt.localeCompare(a.createdAt) || b.id.localeCompare(a.id));
     $('list').innerHTML = rows.length
-      ? rows.map(r => requestCard({ id: r.id, room: rooms.find(x => x.id === r.roomId).name, status: r.status, title: r.name,
-        dateTime: `${formatDateShort(r.date)} · ${formatRange(r.start, r.end)} WIB`, href: `pengajuan-detail.html?id=${encodeURIComponent(r.id)}` })).join('')
-      : emptyState({ icon: 'inbox', title: 'Belum ada pengajuan', body: q || status ? 'Tidak ada pengajuan yang cocok.' : `Belum ada pengajuan di ${tab}.` });
+      ? `<div class="row row-cols-1 row-cols-lg-2 gx-lg-3">${rows.map(r => `<div class="col">${requestCard({ id: r.id, room: rooms.find(x => x.id === r.roomId).name, status: r.status, title: r.name,
+        dateTime: `${formatDateShort(r.date)} · ${formatRange(r.start, r.end)} WIB`, href: `pengajuan-detail.html?id=${encodeURIComponent(r.id)}` })}</div>`).join('')}</div>`
+      : `<div class="row"><div class="col-lg-5 mx-auto">${emptyState({ icon: 'inbox', title: 'Belum ada pengajuan', body: q || status ? 'Tidak ada pengajuan yang cocok.' : `Belum ada pengajuan di ${tab}.` })}</div></div>`;
   }
 
   $('tabs').onclick = e => {

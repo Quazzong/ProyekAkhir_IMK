@@ -25,11 +25,13 @@ function init() {
     </header>
     <p class="small text-secondary mb-2">${esc(req.id)} &nbsp;•&nbsp; Diajukan ${formatDateTime(req.createdAt)}</p>
     <div class="mb-3">${statusChip(req.status)}</div>
+    <div class="row g-lg-4"><div class="col-lg-7">
     <div class="rl-photo mb-3"><i aria-hidden="true" class="bi bi-building"></i></div>
     <h2 class="fs-4 fw-bold mb-1">${esc(room.name)}</h2>
     <p class="small fw-medium text-primary mb-3">${formatDateShort(req.date)} &nbsp;•&nbsp; ${formatRange(req.start, req.end)} WIB</p>
     <h3 class="h6 fw-semibold mb-1">${esc(req.name)}</h3>
     <p class="small text-secondary mb-4">${esc(req.kind)} · ${req.attendees} peserta · ${esc(user.name)}<br>${esc(req.contact)}${req.attachment ? ` · ${esc(req.attachment.name)}` : ''}</p>
+    </div><div class="col-lg-5">
     <h3 class="h5 fw-semibold mb-2">Alur persetujuan</h3>
     <div class="card mb-2"><div class="card-body pb-0">${stepper(stepperSteps(req, state.users))}</div></div>
     ${note ? `<p class="small ${noteCls} mb-3">${esc(note)}</p>` : ''}
@@ -38,7 +40,8 @@ function init() {
       ${acts.includes('resubmit') ? `<a href="ajukan.html?id=${encodeURIComponent(req.id)}" class="btn btn-primary">Perbaiki Pengajuan</a>` : ''}
       ${acts.includes('findOther') ? '<a href="index.html" class="btn btn-primary" data-act="findOther">Cari Ruangan Lain</a>' : ''}
       ${acts.includes('cancel') ? `<button type="button" class="btn ${req.status === 'Disetujui' ? 'btn-link text-danger' : 'btn-soft'}" data-bs-toggle="modal" data-bs-target="#m-cancel">Batalkan Pengajuan</button>` : ''}
-    </div>`;
+    </div>
+    </div></div>`;
 
   $('modal-box').innerHTML = confirmModal({ id: 'm-cancel', title: 'Batalkan Pengajuan?', body: 'Apakah Anda yakin ingin membatalkan pengajuan ini?', note: 'Pengajuan yang dibatalkan masuk ke riwayat.', cancel: 'Kembali', confirm: 'Ya, Batalkan' });
 

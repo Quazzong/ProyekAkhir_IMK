@@ -64,6 +64,8 @@
 .rl-stat-icon{width:40px;height:40px;border-radius:var(--bs-border-radius);display:grid;place-items:center;font-size:1.1rem}
 .rl-doc-preview{background:var(--bs-body-bg);border-radius:var(--bs-border-radius-lg);min-height:420px}
 .rl-photo-md{width:140px;height:90px;flex:none;background:var(--bs-secondary-bg);border-radius:var(--bs-border-radius)}
+/* <a class=btn> tidak menengahkan teks secara vertikal seperti <button> bila tingginya dipaksa min-height 44px */
+a.btn{display:inline-flex;align-items:center;justify-content:center;gap:.25rem}
 .btn-danger-soft{--bs-btn-color:var(--rl-danger-fg);--bs-btn-bg:var(--rl-danger-bg);--bs-btn-border-color:var(--rl-danger-bg);--bs-btn-hover-color:var(--rl-danger-fg);--bs-btn-hover-bg:var(--rl-danger-bg);--bs-btn-hover-border-color:var(--rl-danger-fg);--bs-btn-active-bg:var(--rl-danger-bg);--bs-btn-active-color:var(--rl-danger-fg)}
 .rl-modal-result{max-width:480px}
 .rl-ok-box{background:var(--rl-ok-bg);color:var(--rl-ok-fg)}
@@ -78,3 +80,31 @@
 .badge-filter .btn-close::after{content:"";position:absolute;inset:-16px}
 .toast .btn-close,.offcanvas-header .btn-close{width:44px;height:44px;padding:0;box-sizing:border-box}
 .rl-upload:has(+ input:focus-visible){outline:2px solid var(--bs-primary);outline-offset:2px}
+
+/* Masuk: kartu login kampus di tengah latar navy */
+.rl-login-card{max-width:420px}
+.rl-login-logo{width:48px;height:48px;flex:none;border-radius:var(--bs-border-radius);display:grid;place-items:center;background:var(--rl-navy);color:var(--bs-card-bg)}
+/* Menu akun: area ketuk ≥44px */
+.rl-menu .dropdown-item{min-height:44px}
+
+/* Filter ruangan sebagai bottom sheet (<992): ikut lebar shell 430px */
+.offcanvas.rl-sheet-bottom{max-width:430px;margin-inline:auto;height:auto}
+
+/* Navbar atas pemohon (≥992, pengganti bottom nav) */
+.rl-topnav{background:var(--bs-card-bg);min-height:var(--rl-topnav-h)}
+.rl-topnav .rl-wrap{max-width:var(--rl-shell-lg);margin-inline:auto;padding-inline:var(--rl-space-8)}
+.rl-topnav .nav-link{display:flex;align-items:center;gap:8px;min-height:44px;color:var(--bs-secondary-color);font-weight:500;border-radius:var(--bs-border-radius)}
+.rl-topnav .nav-link.active{color:var(--bs-primary);background:var(--rl-soft-bg);font-weight:600}
+.rl-logo-sm{width:36px;height:36px;font-size:1.1rem}
+
+/* ===== Desktop pemohon ≥992 (docs/DESKTOP.md). Di bawah 992 tidak ada yang berubah. ===== */
+@media (min-width:992px){
+  .app-shell{max-width:var(--rl-shell-lg)}
+  .app-shell.has-nav{padding:calc(var(--rl-topnav-h) + var(--rl-space-8)) var(--rl-space-8) var(--rl-space-8)}
+  .rl-fab{bottom:var(--rl-space-8);right:max(var(--rl-space-8),calc(50% - var(--rl-shell-lg) / 2 + var(--rl-space-8)))}
+  .rl-sticky-lg{position:sticky;top:calc(var(--rl-topnav-h) + var(--rl-space-4))}
+  .rl-sticky-lg.rl-no-nav{top:var(--rl-space-4)}
+  .rl-photo:not(.rl-photo-xs){height:240px}
+  .rl-day{max-width:56px;height:56px}
+  .rl-cta .btn{min-width:240px}
+}

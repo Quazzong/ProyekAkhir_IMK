@@ -1,7 +1,7 @@
 import { requireSession, getDraft, patchDraft, unreadCount } from '../store.js';
 import { toISODate, validateSlot } from '../domain/validation.js';
 import { formatDateLong, monthGrid, monthLabel, timeSlots } from '../domain/dates.js';
-import { dayCell, select, mainNav, button, esc } from '../ui/components.js';
+import { dayCell, select, mainNav, button, esc, profileMenu, bindLogout } from '../ui/components.js';
 
 const user = requireSession('pemohon', 'masuk.html');
 if (user) init();
@@ -17,12 +17,13 @@ function init() {
   const times = timeSlots().map(t => ({ value: t, label: t.replace(':', '.') }));
   const HINT = 'Waktu selesai harus setelah waktu mulai.';
 
-  document.getElementById('nav').innerHTML = mainNav('Kalender', unread);
+  document.getElementById('nav').innerHTML = mainNav('Kalender', unread, user);
   document.getElementById('app').innerHTML = `
     <div class="d-flex justify-content-between align-items-start mb-4">
       <div><h1 class="h3 fw-bold mb-1">Halo, ${esc(user.name.split(' ')[0])} 👋</h1><p class="text-secondary small mb-0">Temukan ruang untuk kegiatanmu.</p></div>
-      <a href="notifikasi.html" class="btn position-relative p-2" aria-label="Notifikasi${unread ? `, ${unread} belum dibaca` : ''}"><i aria-hidden="true" class="bi bi-bell fs-4"></i>${unread ? `<span class="badge text-bg-primary rounded-pill position-absolute top-0 end-0">${unread}</span>` : ''}</a>
+      <div class="d-flex d-lg-none align-items-center"><a href="notifikasi.html" class="btn position-relative p-2" aria-label="Notifikasi${unread ? `, ${unread} belum dibaca` : ''}"><i aria-hidden="true" class="bi bi-bell fs-4"></i>${unread ? `<span class="badge text-bg-primary rounded-pill position-absolute top-0 end-0">${unread}</span>` : ''}</a>${profileMenu(user)}</div>
     </div>
+    <div class="row g-lg-4"><div class="col-lg-7">
     <div class="card bg-soft border-0 mb-3"><div class="card-body d-flex gap-3 align-items-center">
       <i aria-hidden="true" class="bi bi-calendar3 text-primary fs-5"></i>
       <div><div class="fw-semibold small">Mulai dari jadwal kegiatan</div><div class="small text-secondary">Pilih tanggal dan waktu peminjaman.</div></div>
@@ -34,14 +35,17 @@ function init() {
       </div>
       <div class="rl-cal" id="cal"></div>
     </div></div>
+    </div><div class="col-lg-5"><div class="rl-sticky-lg">
     <p class="small fw-semibold text-primary" id="picked"></p>
     <div class="row g-3">
       <div class="col-6">${select({ id: 'start', label: 'Waktu mulai', options: times, value: sel.start })}</div>
       <div class="col-6">${select({ id: 'end', label: 'Waktu selesai', options: times, value: sel.end })}</div>
     </div>
     <p class="small text-secondary" id="hint">${HINT}</p>
-    <div id="cta">${button('Cari Ruangan', { id: 'go' })}</div>`;
+    <div id="cta">${button('Cari Ruangan', { id: 'go' })}</div>
+    </div></div></div>`;
 
+  bindLogout('masuk.html');
   const $ = id => document.getElementById(id);
 
   function renderCal() {
