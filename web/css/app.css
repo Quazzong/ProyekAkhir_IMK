@@ -9,7 +9,7 @@
 .bottom-nav .badge{position:absolute;top:6px;left:calc(50% + 6px)}
 
 /* Sel tanggal kalender */
-.rl-day{width:44px;height:44px;border:0;border-radius:var(--bs-border-radius);background:transparent;color:var(--bs-body-color);font-weight:600;font-size:14px}
+.rl-day{width:100%;max-width:44px;height:44px;border:0;border-radius:var(--bs-border-radius);background:transparent;color:var(--bs-body-color);font-weight:600;font-size:14px}
 .rl-day.active{background:var(--bs-primary);color:var(--bs-card-bg)}
 .rl-day:disabled{color:var(--rl-disabled-day)}
 
@@ -39,7 +39,7 @@
 .rl-empty-icon{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;background:var(--rl-soft-bg);color:var(--bs-primary)}
 
 /* Grid kalender 7 kolom (Senin–Minggu) */
-.rl-cal{display:grid;grid-template-columns:repeat(7,1fr);justify-items:center;row-gap:4px}
+.rl-cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));justify-items:center;row-gap:4px}
 .rl-cal .rl-dow{font-size:12px;font-weight:600;color:var(--bs-secondary-color);padding-block:8px}
 
 /* Lambang bulat notifikasi */
