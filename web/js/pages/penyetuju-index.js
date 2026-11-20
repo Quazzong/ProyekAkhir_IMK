@@ -1,15 +1,12 @@
 import { getState } from '../store.js';
-import { mountPortal, queueTable } from '../ui/portal.js';
+import { queueTable } from '../ui/portal.js';
 import { STAGE_LABELS } from '../domain/request-status.js';
 import { statsFor, pendingFor } from '../domain/approval.js';
 import { toISODate } from '../domain/validation.js';
 import { formatDateWithDay, monthLabel, nowLocal, formatClock } from '../domain/dates.js';
 import { esc } from '../ui/components.js';
 
-const user = mountPortal({ active: 'Dasbor', crumbs: ['Dasbor'] });
-if (user) init();
-
-function init() {
+export function renderDashboard(user) {
   const s = getState();
   const stage = user.role;
   const label = STAGE_LABELS[stage];

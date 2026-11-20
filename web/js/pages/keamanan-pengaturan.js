@@ -1,10 +1,6 @@
-import { mountPortal } from '../ui/portal.js';
 import { esc } from '../ui/components.js';
 
-const user = mountPortal({ kind: 'keamanan', active: 'Pengaturan', crumbs: ['Pengaturan'], roleChip: false });
-if (user) init();
-
-function init() {
+export function renderSettings(user) {
   const row = (label, value) => `<dt class="col-4 fw-medium text-secondary">${label}</dt><dd class="col-8">${value}</dd>`;
   document.getElementById('content').innerHTML = `
     <h1 class="fs-2 fw-bold mb-2">Pengaturan</h1>

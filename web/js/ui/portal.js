@@ -1,5 +1,5 @@
 // Kerangka halaman portal (penyetuju & keamanan): sidebar + bilah atas + area konten #content.
-import { requireSession, unreadCount, popFlash, update } from '../store.js';
+import { currentUser, requireSession, unreadCount, popFlash, update } from '../store.js';
 import { STAGE_LABELS } from '../domain/request-status.js';
 import { markAllRead } from '../domain/notifications.js';
 import { sidebar, esc, showToast, portalTable, statusChip, infoModal, bindLogout } from './components.js';
@@ -45,9 +45,22 @@ export function mountPortal({ active, crumbs, roleChip = true, kind = 'penyetuju
   const k = KINDS[kind];
   const label = k.role(user);
   const unread = unreadCount(user.id);
-  document.getElementById('app').innerHTML =
-    sidebar({ title: k.title, role: label, level: k.level(user), items: k.items, active }) +
-    `<div class="flex-grow-1 d-flex flex-column min-vh-100">
+  const app = document.getElementById('app');
+  const aside = app.querySelector('aside');
+  if (aside) {
+    for (const link of aside.querySelectorAll('a')) {
+      const selected = link.textContent.trim() === active;
+      link.classList.toggle('active', selected);
+      if (selected) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    }
+    aside.nextElementSibling.remove();
+  } else {
+    app.innerHTML = sidebar({ title: k.title, role: label, level: k.level(user), items: k.items, active });
+    bindLogout('../masuk.html');
+    document.body.insertAdjacentHTML('beforeend', infoModal({ id: 'm-help', title: 'Butuh bantuan?', body: k.help }));
+  }
+  app.insertAdjacentHTML('beforeend', `<div class="flex-grow-1 d-flex flex-column min-vh-100">
       <header class="rl-topbar d-flex align-items-center px-4 gap-4 border-bottom">
         <nav aria-label="breadcrumb" class="flex-grow-1"><ol class="breadcrumb mb-0 small">
           <li class="breadcrumb-item"><a href="index.html" class="text-secondary text-decoration-none">${esc(k.title)}</a></li>
@@ -57,14 +70,45 @@ export function mountPortal({ active, crumbs, roleChip = true, kind = 'penyetuju
         ${roleChip ? `<span class="badge badge-filter rounded-3 px-3 py-2">${esc(label)}</span>` : ''}
       </header>
       <main class="p-4 flex-grow-1" id="content"></main>
-    </div>`;
-  bindLogout('../masuk.html');
-  document.body.insertAdjacentHTML('beforeend', infoModal({ id: 'm-help', title: 'Butuh bantuan?', body: k.help }));
+    </div>`);
   // Bel menandai dibaca lalu membuka antrean / jadwal.
   document.getElementById('bell').onclick = () => update(s => { s.notifications = markAllRead(s.notifications, user.id); });
   const flash = popFlash();
   if (flash) setTimeout(() => showToast(flash.message));
   return user;
+}
+
+// Hanya tab sidebar yang berbagi dokumen. Detail tetap memakai navigasi biasa dan referrer.
+export function bindPortalTabs(kind, views) {
+  const items = KINDS[kind].items;
+  const currentFile = () => location.pathname.split('/').pop() || 'index.html';
+  const session = requireSession(kind, '../masuk.html');
+  if (!session) return;
+
+  function render() {
+    const file = currentFile();
+    const item = items.find(i => i.href === file);
+    if (!item || document.querySelector('.modal.show') || currentUser()?.id !== session.id) {
+      location.reload();
+      return;
+    }
+    const user = mountPortal({ kind, active: item.label, crumbs: [item.label], roleChip: kind !== 'keamanan' });
+    if (!user) return;
+    document.getElementById('modal-box').replaceChildren();
+    document.title = item.label + ' — RoomLink';
+    views[file](user);
+  }
+
+  if (views[currentFile()]) render();
+  document.querySelector('.rl-sidebar')?.addEventListener('click', event => {
+    const link = event.target.closest('a[href]');
+    if (!link || event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    if (link.href !== location.href) history.pushState(null, '', link.href);
+    render();
+    window.scrollTo(0, 0);
+  });
+  window.addEventListener('popstate', render);
 }
 
 // Tabel antrean. offset: nomor awal (paginasi). Status = status tahap milik peran.

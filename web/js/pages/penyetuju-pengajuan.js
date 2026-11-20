@@ -1,14 +1,11 @@
 import { getState } from '../store.js';
-import { mountPortal, queueTable } from '../ui/portal.js';
+import { queueTable } from '../ui/portal.js';
 import { STAGE_LABELS } from '../domain/request-status.js';
 import { STAGE_INFO, reachedStage } from '../domain/approval.js';
 import { formatDateShort } from '../domain/dates.js';
 import { esc } from '../ui/components.js';
 
-const user = mountPortal({ active: 'Pengajuan Masuk', crumbs: ['Pengajuan Masuk'] });
-if (user) init();
-
-function init() {
+export function renderQueue(user) {
   const $ = id => document.getElementById(id);
   const s = getState();
   const stage = user.role;

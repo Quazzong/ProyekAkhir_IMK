@@ -1,13 +1,10 @@
 import { getState } from '../store.js';
-import { mountPortal, queueTable } from '../ui/portal.js';
+import { queueTable } from '../ui/portal.js';
 import { STAGE_LABELS } from '../domain/request-status.js';
 import { decidedBy } from '../domain/approval.js';
 import { esc } from '../ui/components.js';
 
-const user = mountPortal({ active: 'Riwayat Keputusan', crumbs: ['Riwayat Keputusan'] });
-if (user) init();
-
-function init() {
+export function renderHistory(user) {
   const $ = id => document.getElementById(id);
   const s = getState();
   const stage = user.role;

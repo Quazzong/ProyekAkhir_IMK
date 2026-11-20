@@ -1,15 +1,11 @@
 // HTA 9.1: daftar pemakaian ruangan terverifikasi per tanggal (awal = hari ini).
 import { getState, update } from '../store.js';
-import { mountPortal } from '../ui/portal.js';
 import { usageOn, nearestUsageDate, checkStatus, checkSummary } from '../domain/security.js';
 import { toISODate } from '../domain/validation.js';
 import { formatDateLong, formatDateWithDay, formatRange } from '../domain/dates.js';
 import { esc, portalTable, statusChip } from '../ui/components.js';
 
-const user = mountPortal({ kind: 'keamanan', active: 'Jadwal Pemakaian', crumbs: ['Jadwal Pemakaian'], roleChip: false });
-if (user) init();
-
-function init() {
+export function renderSchedule() {
   const $ = id => document.getElementById(id);
   const today = toISODate(new Date());
   const shift = (iso, n) => { const d = new Date(`${iso}T00:00`); d.setDate(d.getDate() + n); return toISODate(d); };
