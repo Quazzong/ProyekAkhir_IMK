@@ -67,7 +67,7 @@ export const roomCard = ({ id = '', name, capacity, facilities = '', location = 
 };
 
 // Satu panel terbuka sekaligus. Tap/klik kartu = buka/tutup, Esc = tutup, klik di luar = tutup.
-export function bindRoomCards(root, onPick) {
+export function bindRoomCards(root, onPick, signal) {
   const set = (card, open) => {
     card.classList.toggle('is-open', open);
     card.querySelector('.rl-room-toggle').setAttribute('aria-expanded', String(open));
@@ -83,7 +83,7 @@ export function bindRoomCards(root, onPick) {
     const card = e.target.closest('.rl-room.is-open');
     if (e.key === 'Escape' && card) { set(card, false); card.querySelector('.rl-room-toggle').focus(); }
   });
-  document.addEventListener('click', e => { if (!root.contains(e.target)) closeAll(); });
+  document.addEventListener('click', e => { if (!root.contains(e.target)) closeAll(); }, { signal });
 }
 
 // title (nama kegiatan) opsional: dengan title tampil + "Lihat Detail →".

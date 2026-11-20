@@ -1,12 +1,9 @@
-import { requireSession, getState, unreadCount, popFlash } from '../store.js';
+import { getState, popFlash } from '../store.js';
 import { isHistory } from '../domain/request-status.js';
 import { formatDateShort, formatRange } from '../domain/dates.js';
-import { requestCard, tabs, mainNav, emptyState, showToast, esc, profileMenu, bindLogout } from '../ui/components.js';
+import { requestCard, tabs, emptyState, showToast, esc, profileMenu } from '../ui/components.js';
 
-const user = requireSession('pemohon', 'masuk.html');
-if (user) init();
-
-function init() {
+export function renderRequests(user) {
   const $ = id => document.getElementById(id);
   const all = getState().requests.filter(r => r.userId === user.id);
   const rooms = getState().rooms;
@@ -15,7 +12,6 @@ function init() {
   let tab = flash?.tab || 'Aktif';
   let query = '', status = '';
 
-  $('nav').innerHTML = mainNav('Pengajuan Saya', unreadCount(user.id), user);
   $('app').innerHTML = `
     <div class="d-flex justify-content-between align-items-start mb-3">
       <div><h1 class="fs-3 fw-bold mb-1">Pengajuan Saya</h1><p class="small text-secondary mb-0">Pantau kegiatan dan status persetujuan.</p></div>
@@ -30,10 +26,9 @@ function init() {
     <div id="list" class="rl-fab-space rl-fade"></div>
     <a href="index.html" class="btn btn-primary rl-fab" aria-label="Buat pengajuan baru"><i aria-hidden="true" class="bi bi-plus-lg fs-5"></i></a>`;
 
-  bindLogout('masuk.html');
 
+  $('tabs').innerHTML = tabs(['Aktif', 'Riwayat'], tab);
   function render() {
-    $('tabs').innerHTML = tabs(['Aktif', 'Riwayat'], tab);
     $('status').innerHTML = ['<option value="">Semua status</option>', ...STATUS[tab].map(s => `<option ${s === status ? 'selected' : ''}>${esc(s)}</option>`)].join('');
     const q = query.trim().toLowerCase();
     const rows = all
@@ -50,7 +45,12 @@ function init() {
     const t = e.target.closest('[data-tab]');
     if (!t) return;
     e.preventDefault();
-    tab = t.dataset.tab; status = ''; render();
+    tab = t.dataset.tab; status = '';
+    for (const button of $('tabs').querySelectorAll('[data-tab]')) {
+      button.classList.toggle('active', button === t);
+      button.setAttribute('aria-selected', String(button === t));
+    }
+    render();
   };
   $('q').oninput = () => { query = $('q').value; render(); };
   $('status').onchange = () => { status = $('status').value; render(); };

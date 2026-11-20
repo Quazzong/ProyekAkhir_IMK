@@ -1,12 +1,9 @@
-import { requireSession, getDraft, patchDraft, popFlash, unreadCount } from '../store.js';
+import { getDraft, patchDraft, popFlash, unreadCount } from '../store.js';
 import { toISODate, validateSlot } from '../domain/validation.js';
 import { formatDateLong, monthGrid, monthLabel, timeSlots } from '../domain/dates.js';
-import { dayCell, select, mainNav, button, esc, profileMenu, showToast, bindLogout } from '../ui/components.js';
+import { dayCell, select, button, esc, profileMenu, showToast } from '../ui/components.js';
 
-const user = requireSession('pemohon', 'masuk.html');
-if (user) init();
-
-function init() {
+export function renderCalendar(user, navigate) {
   const today = new Date();
   const todayISO = toISODate(today);
   const draft = getDraft();
@@ -17,7 +14,6 @@ function init() {
   const times = timeSlots().map(t => ({ value: t, label: t.replace(':', '.') }));
   const HINT = 'Waktu selesai harus setelah waktu mulai.';
 
-  document.getElementById('nav').innerHTML = mainNav('Kalender', unread, user);
   document.getElementById('app').innerHTML = `
     <div class="d-flex justify-content-between align-items-start mb-4">
       <div><h1 class="h3 fw-bold mb-1">Halo, ${esc(user.name.split(' ')[0])} 👋</h1><p class="text-secondary small mb-0">Temukan ruang untuk kegiatanmu.</p></div>
@@ -45,7 +41,6 @@ function init() {
     <div id="cta">${button('Cari Ruangan', { id: 'go' })}</div>
     </div></div></div>`;
 
-  bindLogout('masuk.html');
   const $ = id => document.getElementById(id);
 
   function renderCal() {
@@ -86,7 +81,7 @@ function init() {
     if (!e.target.closest('#go') || e.target.closest('#go').disabled) return;
     if (Object.keys(validateSlot(sel)).length) return; // jaga bila tanggal lampau lolos lewat state lama
     patchDraft({ ...sel });
-    location.href = 'ruangan.html';
+    navigate('ruangan.html');
   };
 
   renderCal(); check();

@@ -1,25 +1,21 @@
-import { requireSession, getState, update, unreadCount } from '../store.js';
+import { getState, update, unreadCount } from '../store.js';
 import { groupByDay, markAllRead } from '../domain/notifications.js';
 import { toISODate } from '../domain/validation.js';
 import { formatClock, formatDateShort } from '../domain/dates.js';
-import { notifCard, mainNav, emptyState, profileMenu, bindLogout, esc } from '../ui/components.js';
+import { notifCard, emptyState, profileMenu, esc } from '../ui/components.js';
 
 // Lambang per jenis notifikasi.
 const ICONS = { submitted: 'bell', forwarded: 'bell', approved: 'bell', final: 'check-lg', revise: 'file-earmark-text', rejected: 'x-lg' };
 
-const user = requireSession('pemohon', 'masuk.html');
-if (user) init();
-
-function init() {
+export function renderNotifications(user, updateBadge) {
   const $ = id => document.getElementById(id);
   const today = toISODate(new Date());
-  bindLogout('masuk.html');
 
   function render() {
     const notifications = getState().notifications;
     const mine = notifications.filter(n => n.userId === user.id);
     const unread = unreadCount(user.id);
-    $('nav').innerHTML = mainNav('Notifikasi', unread, user);
+    updateBadge(unread);
     $('app').innerHTML = `<div class="row"><div class="col-lg-8 mx-auto">
       <div class="d-flex justify-content-between align-items-start mb-3">
         <div><h1 class="fs-3 fw-bold mb-0">Notifikasi</h1><div class="small text-secondary">${unread} belum dibaca</div></div>
@@ -35,12 +31,12 @@ function init() {
   }
 
   // ketuk → tandai dibaca lalu buka detail (href biasa).
-  $('app').addEventListener('click', e => {
+  $('app').onclick = e => {
     const link = e.target.closest('[data-index]');
     if (link) update(s => {
       const item = s.notifications[link.dataset.index];
       if (item?.userId === user.id && s.session === user.id) item.read = true;
     });
-  });
+  };
   render();
 }

@@ -1,7 +1,7 @@
-import { requireSession, getState, getDraft, patchDraft, unreadCount } from '../store.js';
+import { getState, getDraft, patchDraft } from '../store.js';
 import { availableRooms } from '../domain/availability.js';
 import { formatDateWithDay, formatRange } from '../domain/dates.js';
-import { roomCard, bindRoomCards, filterChip, filterSheet, emptyState, mainNav, bindLogout } from '../ui/components.js';
+import { roomCard, bindRoomCards, filterChip, filterSheet, emptyState } from '../ui/components.js';
 
 const JENIS = ['Ruang Kelas', 'Ruang Seminar', 'Laboratorium', 'Ruang Rapat'];
 const KAP = [
@@ -10,18 +10,13 @@ const KAP = [
   { value: '>50', label: 'Lebih dari 50 orang', chip: '>50 orang' },
 ];
 
-const user = requireSession('pemohon', 'masuk.html');
-const draft = getDraft();
-if (user && !draft.date) location.replace('index.html'); // belum memilih jadwal
-else if (user) init();
-
-function init() {
+export function renderRooms(signal) {
   const $ = id => document.getElementById(id);
+  const draft = getDraft();
+  if (!draft.date) { location.replace('index.html'); return; }
   const slot = { date: draft.date, start: draft.start, end: draft.end };
   let filter = { type: draft.type ?? '', capacity: draft.capacity ?? '' };
 
-  $('nav').innerHTML = mainNav('Kalender', unreadCount(user.id), user);
-  bindLogout('masuk.html');
   $('app').innerHTML = `
     <header class="d-flex align-items-center gap-2 mb-1">
       <a href="index.html" class="btn p-2" aria-label="Kembali ke Kalender"><i aria-hidden="true" class="bi bi-arrow-left fs-5"></i></a>
@@ -71,6 +66,6 @@ function init() {
     else if (act === 'filter') openSheet();
   };
 
-  bindRoomCards($('list'), roomId => { patchDraft({ roomId }); location.href = 'ajukan.html'; });
+  bindRoomCards($('list'), roomId => { patchDraft({ roomId }); location.href = 'ajukan.html'; }, signal);
   render();
 }
