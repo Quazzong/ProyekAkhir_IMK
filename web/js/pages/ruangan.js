@@ -1,7 +1,7 @@
 import { requireSession, getState, getDraft, patchDraft, unreadCount } from '../store.js';
 import { availableRooms } from '../domain/availability.js';
 import { formatDateWithDay, formatRange } from '../domain/dates.js';
-import { roomCard, bindRoomCards, filterChip, filterSheet, emptyState, mainNav } from '../ui/components.js';
+import { roomCard, bindRoomCards, filterChip, filterSheet, emptyState, mainNav, bindLogout } from '../ui/components.js';
 
 const JENIS = ['Ruang Kelas', 'Ruang Seminar', 'Laboratorium', 'Ruang Rapat'];
 const KAP = [
@@ -21,6 +21,7 @@ function init() {
   let filter = { type: draft.type ?? '', capacity: draft.capacity ?? '' };
 
   $('nav').innerHTML = mainNav('Kalender', unreadCount(user.id), user);
+  bindLogout('masuk.html');
   $('app').innerHTML = `
     <header class="d-flex align-items-center gap-2 mb-1">
       <a href="index.html" class="btn p-2" aria-label="Kembali ke Kalender"><i aria-hidden="true" class="bi bi-arrow-left fs-5"></i></a>
@@ -33,7 +34,7 @@ function init() {
     $('sheet-box').innerHTML = filterSheet({ id: 'sheet', jenis: JENIS, kapasitas: KAP, jenisAktif: filter.type, kapasitasAktif: filter.capacity, placement: matchMedia('(min-width: 992px)').matches ? 'end' : 'bottom' });
     const el = $('sheet');
     const sheet = new bootstrap.Offcanvas(el);
-    el.addEventListener('hidden.bs.offcanvas', () => { sheet.dispose(); el.remove(); });
+    el.addEventListener('hidden.bs.offcanvas', () => { sheet.dispose(); el.remove(); $('list').querySelector('[data-act="filter"]')?.focus(); });
     $('sheet-apply').onclick = () => {
       filter = { type: el.querySelector('[name=jenis]:checked')?.value ?? '', capacity: el.querySelector('[name=kap]:checked')?.value ?? '' };
       patchDraft(filter);
@@ -57,7 +58,7 @@ function init() {
         ? `<div class="row row-cols-1 row-cols-lg-2 gx-lg-3">${rooms.map(r => `<div class="col">${roomCard(r)}</div>`).join('')}</div>`
         : `<div class="row"><div class="col-lg-5 mx-auto">${emptyState({
           icon: 'search', title: 'Belum ada ruangan tersedia',
-          body: 'Semua ruangan telah terisi pada jadwal ini.\nCoba tanggal, waktu, atau filter lain.',
+          body: chips.length ? 'Tidak ada ruangan yang cocok dengan filter. Coba ubah filter.' : 'Semua ruangan telah terisi pada jadwal ini.\nCoba tanggal, waktu, atau filter lain.',
           actions: '<a href="index.html" class="btn btn-primary">Kembali ke Kalender</a><button type="button" class="btn btn-soft" data-act="filter">Ubah Filter</button>',
         })}</div></div>`);
   }

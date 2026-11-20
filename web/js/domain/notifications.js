@@ -21,11 +21,11 @@ function forPemohon(event, r, { stage, note = '', roomName = '' }) {
   ];
 }
 
-export function buildNotifications(event, r, recipients, { users, at, stage = '', note = '', roomName = '' }) {
+export function buildNotifications(event, r, recipients, { users, at, stage = '', note = '', roomName = '', offset = 0 }) {
   const out = [];
-  const push = (userId, msg, i = 0) => out.push({ id: `${r.id}:${msg.kind}:${userId}:${at}:${i}`, userId, requestId: r.id, ...msg, at, read: false });
+  const push = (userId, msg) => out.push({ id: `${r.id}:${msg.kind}:${userId}:${at}:${offset + out.length}`, userId, requestId: r.id, ...msg, at, read: false });
   for (const key of recipients) {
-    if (key === 'pemohon') forPemohon(event, r, { stage, note, roomName }).forEach((m, i) => push(r.userId, m, i));
+    if (key === 'pemohon') forPemohon(event, r, { stage, note, roomName }).forEach(m => push(r.userId, m));
     else if (key === 'keamanan') push('keamanan', { kind: 'final', title: 'Peminjaman disetujui', body: `${r.id} · ${roomName} · ${r.date} ${r.start}–${r.end}` });
     else for (const u of users.filter(x => x.role === key)) push(u.id, { kind: 'incoming', title: 'Pengajuan menunggu keputusan', body: `${r.id} siap ditinjau ${STAGE_LABELS[key]}.` });
   }

@@ -1,4 +1,4 @@
-import { requireSession, getState, update, setFlash } from '../store.js';
+import { requireSession, getState, updateCurrentRequest, setFlash } from '../store.js';
 import { actionsFor, cancel } from '../domain/request-status.js';
 import { stepperSteps, flowNote } from '../domain/request-view.js';
 import { formatDateShort, formatRange, formatDateTime } from '../domain/dates.js';
@@ -50,8 +50,8 @@ function init() {
 
   // konfirmasi → toast → pengajuan.html (tab Riwayat).
   $('m-cancel').querySelector('[data-role=confirm]').onclick = () => {
-    update(s => { s.requests[s.requests.findIndex(r => r.id === req.id)] = cancel(req); });
-    setFlash('Pengajuan berhasil dibatalkan.', 'Riwayat');
+    const saved = updateCurrentRequest(user.id, req, (s, current, i) => { s.requests[i] = cancel(current); });
+    if (saved) setFlash('Pengajuan berhasil dibatalkan.', 'Riwayat');
     location.href = 'pengajuan.html';
   };
 }

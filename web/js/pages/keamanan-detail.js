@@ -1,5 +1,5 @@
 // HTA 9.2: cocokkan detail peminjaman dengan pengguna di lokasi → Sesuai / Tidak Sesuai.
-import { getState, update, setFlash } from '../store.js';
+import { getState, updateCurrentRequest, setFlash } from '../store.js';
 import { mountPortal } from '../ui/portal.js';
 import { portalSteps } from '../domain/request-view.js';
 import { applyCheck, checkStatus } from '../domain/security.js';
@@ -77,10 +77,14 @@ function init() {
     const b = e.target.closest('[data-result]');
     if (!b) return;
     const note = $('note').value;
-    const out = applyCheck(req, { result: b.dataset.result, note, at: nowLocal(), by: user.id });
-    if (out.error) { renderCheck(out.error, note); $('note').focus(); return; }
-    update(st => { st.requests = st.requests.map(r => (r.id === req.id ? out.request : r)); });
-    setFlash(`${req.id} ditandai ${out.request.check.result}.`);
+    let error;
+    const saved = updateCurrentRequest(user.id, req, (s, current, i) => {
+      const out = applyCheck(current, { result: b.dataset.result, note, at: nowLocal(), by: user.id });
+      error = out.error;
+      if (!error) s.requests[i] = out.request;
+    });
+    if (error) { renderCheck(error, note); $('note').focus(); return; }
+    if (saved) setFlash(`${req.id} ditandai ${b.dataset.result}.`);
     location.href = 'index.html';
   };
   renderCheck();

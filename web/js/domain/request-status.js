@@ -72,7 +72,7 @@ export function resubmit(req, changes = {}) {
   const r = { ...structuredClone(req), ...structuredClone(changes), status: 'Menunggu' };
   // "Dokumen lama tetap tersimpan." → lampiran lama yang diganti disimpan di riwayat.
   const old = req.attachment;
-  if (old && 'attachment' in changes && changes.attachment?.name !== old.name) r.previousAttachments = [...(req.previousAttachments ?? []), old];
+  if (old && 'attachment' in changes && (changes.attachment?.name !== old.name || changes.attachment?.size !== old.size)) r.previousAttachments = [...(req.previousAttachments ?? []), old];
   r.stages = { ...req.stages, [stage]: 'Menunggu' };
   for (const s of STAGES.slice(STAGES.indexOf(stage) + 1)) r.stages[s] = 'Belum diproses';
   return { request: r, notify: [stage] };

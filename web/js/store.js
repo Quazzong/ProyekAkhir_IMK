@@ -30,6 +30,22 @@ export function update(fn) {
   return s;
 }
 
+// Halaman lain dapat mengubah sesi atau pengajuan sejak detail dibuka.
+export function updateCurrentRequest(userId, snapshot, change) {
+  let saved = false;
+  update(state => {
+    const index = state.requests.findIndex(r => r.id === snapshot.id);
+    const current = state.requests[index];
+    if (state.session !== userId || JSON.stringify(current) !== JSON.stringify(snapshot)) {
+      state.flash = { message: 'Data telah berubah. Periksa kembali pengajuan.' };
+      return;
+    }
+    change(state, current, index);
+    saved = true;
+  });
+  return saved;
+}
+
 export const currentUser = () => {
   const s = getState();
   return s.users.find(u => u.id === s.session) ?? null;

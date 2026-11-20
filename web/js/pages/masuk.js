@@ -23,14 +23,14 @@ function init() {
           <div class="mb-3">
             <label for="login" class="form-label fw-medium">Email / NIM <span class="text-danger">*</span></label>
             <input id="login" class="form-control" autocomplete="username" placeholder="nama@kampus.ac.id">
-            <div class="invalid-feedback"></div>
+            <div id="login-err" class="invalid-feedback"></div>
           </div>
           <div class="mb-2">
             <label for="pass" class="form-label fw-medium">Kata sandi <span class="text-danger">*</span></label>
             <div class="input-group has-validation">
               <input id="pass" type="password" class="form-control" autocomplete="current-password">
               <button type="button" class="btn btn-outline-secondary" id="eye" aria-label="Tampilkan kata sandi" aria-pressed="false"><i aria-hidden="true" class="bi bi-eye"></i></button>
-              <div class="invalid-feedback"></div>
+              <div id="pass-err" class="invalid-feedback"></div>
             </div>
           </div>
           <div class="text-end mb-3"><button type="button" class="btn btn-link small fw-semibold text-decoration-none px-0" data-bs-toggle="modal" data-bs-target="#m-forgot">Lupa kata sandi?</button></div>
@@ -47,6 +47,8 @@ function init() {
 
   const $ = id => document.getElementById(id);
   const setErr = (input, msg) => {
+    input.setAttribute('aria-invalid', String(Boolean(msg)));
+    input.setAttribute('aria-describedby', input.id + '-err');
     input.classList.toggle('is-invalid', !!msg);
     input.closest('.mb-3, .mb-2').querySelector('.invalid-feedback').textContent = msg;
   };
@@ -67,7 +69,7 @@ function init() {
     const login = $('login').value, pass = $('pass').value;
     setErr($('login'), login.trim() ? '' : MSG.REQUIRED);
     setErr($('pass'), pass ? '' : MSG.REQUIRED);
-    if (!login.trim() || !pass) return;
+    if (!login.trim() || !pass) { $(login.trim() ? 'pass' : 'login').focus(); return; }
 
     btn.disabled = true; // simulasi loading; isian tidak dihapus bila gagal
     btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Memproses…';

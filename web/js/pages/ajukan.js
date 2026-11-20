@@ -1,4 +1,4 @@
-import { requireSession, getState, getDraft, patchDraft, update } from '../store.js';
+import { requireSession, getState, getDraft, patchDraft, update, updateCurrentRequest } from '../store.js';
 import { validateRequestForm, validateAttachment, KINDS } from '../domain/validation.js';
 import { formatDateShort, formatRange, formatSize, nowLocal } from '../domain/dates.js';
 import { resubmit } from '../domain/request-status.js';
@@ -58,6 +58,8 @@ function init() {
   // Pesan error di bawah tiap kolom; pesan kosong = valid.
   const show = (id, msg) => {
     const el = $(id);
+    el.setAttribute('aria-invalid', String(Boolean(msg)));
+    el.setAttribute('aria-describedby', [$(id + '-hint')?.id, msg && id + '-err'].filter(Boolean).join(' '));
     el.classList.toggle('is-invalid', !!msg);
     el.parentElement.querySelector('.invalid-feedback').textContent = msg ?? '';
   };
@@ -77,14 +79,17 @@ function init() {
     $('file').onchange = e => {
       const file = e.target.files[0];
       if (!file) return;
+      clearInterval(timer);
       const err = validateAttachment(file);
       if (err) return renderUpload('error', err);
+      f.attachment = { name: file.name, size: file.size };
+      save();
       renderUpload('progress', file.name);
       let pct = 0;
       timer = setInterval(() => {
         pct += 20;
         $('bar').style.width = `${pct}%`;
-        if (pct >= 100) { clearInterval(timer); f.attachment = { name: file.name, size: file.size }; save(); renderUpload(); }
+        if (pct >= 100) { clearInterval(timer); renderUpload(); }
       }, 150);
     };
   }
@@ -93,6 +98,7 @@ function init() {
   // Isian tersimpan ke draft tiap perubahan.
   for (const k of FIELDS) $(k).addEventListener('input', () => { f[k] = $(k).value; save(); });
 
+  $('m-discard').addEventListener('hidden.bs.modal', () => $('back').focus());
   $('back').onclick = () => bootstrap.Modal.getOrCreateInstance($('m-discard')).show();
   $('m-discard').querySelector('[data-role=confirm]').onclick = () => {
     clearInterval(timer);
@@ -124,15 +130,14 @@ function init() {
     $('cta').innerHTML = button('Memproses…', { id: 'next', state: 'loading', full: false });
     const stage = revisionStage(editReq);
     setTimeout(() => {
-      update(s => {
-        const i = s.requests.findIndex(r => r.id === editId);
-        const { request, notify } = resubmit(s.requests[i], { ...f, attendees: +f.attendees });
+      const savedRevision = updateCurrentRequest(user.id, editReq, (s, current, i) => {
+        const { request, notify } = resubmit(current, { ...f, attendees: +f.attendees });
         s.requests[i] = request;
-        s.notifications.push(...buildNotifications('resubmitted', request, notify, { users: s.users, at: nowLocal() }));
+        s.notifications.push(...buildNotifications('resubmitted', request, notify, { users: s.users, offset: s.notifications.length, at: nowLocal() }));
         s.result = { type: 'revisi', requestId: editId, stage };
         delete s.revision;
       });
-      location.href = 'hasil.html';
+      location.href = savedRevision ? 'hasil.html' : 'pengajuan.html';
     }, 1200);
   }
 }

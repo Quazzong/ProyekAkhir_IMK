@@ -46,11 +46,11 @@ export function statsFor(requests, stage, month) {
 }
 
 // Keputusan + catatan waktu tahap + notifikasi. Mengembalikan {request, notifications}.
-export function applyDecision(req, stage, action, note, { users, at, roomName }) {
+export function applyDecision(req, stage, action, note, { users, at, roomName, offset = 0 }) {
   const { request, notify } = decide(req, stage, action, note);
   request.stageAt = { ...req.stageAt, [stage]: at };
   const event = { approve: 'approve', revise: 'revise', reject: 'reject' }[action];
-  return { request, notifications: buildNotifications(event, request, notify, { users, at, stage, note: note.trim(), roomName }) };
+  return { request, notifications: buildNotifications(event, request, notify, { users, at, offset, stage, note: note.trim(), roomName }) };
 }
 
 // Teks panel hasil keputusan. null = tidak ada panel (setuju tahap 1–2).

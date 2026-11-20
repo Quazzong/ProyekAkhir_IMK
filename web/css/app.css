@@ -149,3 +149,5 @@ div.rl-room-photo{display:grid;place-items:center;background:var(--bs-secondary-
   .rl-day{max-width:56px;height:56px}
   .rl-cta .btn{min-width:240px}
 }
+
+.rl-capacity-option{min-height:44px}

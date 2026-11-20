@@ -1,7 +1,7 @@
-import { requireSession, getDraft, patchDraft, unreadCount } from '../store.js';
+import { requireSession, getDraft, patchDraft, popFlash, unreadCount } from '../store.js';
 import { toISODate, validateSlot } from '../domain/validation.js';
 import { formatDateLong, monthGrid, monthLabel, timeSlots } from '../domain/dates.js';
-import { dayCell, select, mainNav, button, esc, profileMenu, bindLogout } from '../ui/components.js';
+import { dayCell, select, mainNav, button, esc, profileMenu, showToast, bindLogout } from '../ui/components.js';
 
 const user = requireSession('pemohon', 'masuk.html');
 if (user) init();
@@ -60,8 +60,11 @@ function init() {
   // error waktu menggantikan petunjuk, tombol jadi "Perbaiki Waktu" (nonaktif).
   function check() {
     const errs = validateSlot(sel);
-    $('start').classList.toggle('is-invalid', !!errs.start);
-    $('end').classList.toggle('is-invalid', !!errs.end);
+    for (const id of ['start', 'end']) {
+      $(id).classList.toggle('is-invalid', !!errs[id]);
+      $(id).setAttribute('aria-invalid', String(Boolean(errs[id])));
+      $(id).setAttribute('aria-describedby', 'hint');
+    }
     const timeErr = errs.start || errs.end;
     $('hint').textContent = timeErr || HINT;
     $('hint').className = `small ${timeErr ? 'text-danger' : 'text-secondary'}`;
@@ -74,6 +77,7 @@ function init() {
     if (!b) return;
     sel.date = b.dataset.date;
     renderCal(); check();
+    $('cal').querySelector('[aria-pressed="true"]').focus();
   };
   $('prev').onclick = () => { view = view.m ? { ...view, m: view.m - 1 } : { y: view.y - 1, m: 11 }; renderCal(); };
   $('next').onclick = () => { view = view.m < 11 ? { ...view, m: view.m + 1 } : { y: view.y + 1, m: 0 }; renderCal(); };
@@ -86,4 +90,6 @@ function init() {
   };
 
   renderCal(); check();
+  const flash = popFlash();
+  if (flash?.message) showToast(flash.message);
 }

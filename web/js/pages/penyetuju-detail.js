@@ -1,4 +1,4 @@
-import { getState, update, setFlash } from '../store.js';
+import { getState, updateCurrentRequest, setFlash } from '../store.js';
 import { mountPortal } from '../ui/portal.js';
 import { STAGES, STAGE_LABELS, currentStage, validateDecisionNote } from '../domain/request-status.js';
 import { STAGE_INFO, applyDecision, decisionResult } from '../domain/approval.js';
@@ -71,7 +71,7 @@ function init() {
         <div class="card flex-grow-1"><div class="card-body p-4">
           <h2 class="fs-5 fw-semibold mb-1">Catatan persetujuan</h2>
           ${actionable ? `<label for="note" class="d-block small text-secondary mb-3">Wajib diisi untuk revisi atau penolakan.</label>
-            <textarea id="note" class="form-control mb-1" rows="4"></textarea><div class="invalid-feedback" id="note-err"></div>
+            <textarea id="note" aria-describedby="note-err" class="form-control mb-1" rows="4"></textarea><div class="invalid-feedback" id="note-err"></div>
             <p class="small text-secondary mt-3 mb-2">${esc(info.noteHint)}</p><p class="small text-warning-emphasis mb-0">Revisi / penolakan menghentikan proses.</p>`
     : `<p class="small text-secondary mb-0 mt-3">${esc(req.notes?.[stage] || 'Belum ada catatan dari tahap Anda.')}</p>`}
         </div></div>
@@ -108,19 +108,20 @@ function init() {
   function decideWith(action) {
     const note = $('note').value;
     const err = validateDecisionNote(action, note);
+    $('note').setAttribute('aria-invalid', String(Boolean(err)));
     $('note').classList.toggle('is-invalid', !!err);
     $('note-err').textContent = err;
     if (err) return $('note').focus();
     buttons.forEach(b => (b.disabled = true));
     const at = nowLocal();
     let result;
-    update(st => {
-      const i = st.requests.findIndex(r => r.id === req.id);
-      const out = applyDecision(st.requests[i], stage, action, note, { users: st.users, at, roomName: room.name });
+    const saved = updateCurrentRequest(user.id, req, (st, current, i) => {
+      const out = applyDecision(current, stage, action, note, { users: st.users, at, offset: st.notifications.length, roomName: room.name });
       st.requests[i] = out.request;
       st.notifications.push(...out.notifications);
       result = decisionResult(out.request, stage, action, note);
     });
+    if (!saved) { location.href = 'pengajuan.html'; return; }
     if (!result) { // setuju tahap 1–2: tanpa panel
       setFlash(`Pengajuan disetujui dan diteruskan ke ${STAGE_LABELS[STAGES[STAGES.indexOf(stage) + 1]]}.`);
       location.href = 'pengajuan.html';

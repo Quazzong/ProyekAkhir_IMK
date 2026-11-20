@@ -1,5 +1,5 @@
 import { requireSession, getState, getDraft, update } from '../store.js';
-import { validateRequestForm } from '../domain/validation.js';
+import { validateRequestForm, validateSlot } from '../domain/validation.js';
 import { submit } from '../domain/availability.js';
 import { nextRequestId } from '../domain/request-status.js';
 import { buildNotifications } from '../domain/notifications.js';
@@ -53,22 +53,36 @@ function init() {
     busy = true;
     render(true);
     setTimeout(() => {
-      const s = getState();
-      const slot = { roomId: room.id, date: draft.date, start: draft.start, end: draft.end };
-      const at = nowLocal();
-      const res = submit(s.requests, { ...slot, userId: user.id, ...form, attendees: +form.attendees, createdAt: at }, nextRequestId(s.requests, new Date().getFullYear()));
-      if (res.conflict) {
-        update(st => { st.result = { type: 'bentrok', ...slot }; }); // draft tetap tersimpan
-      } else {
-        update(st => {
-          st.requests.push(res.request);
-          st.notifications.push(...buildNotifications('submitted', res.request, res.notify, { users: st.users, at }));
-          st.draft = null;
-          st.result = { type: 'berhasil', requestId: res.request.id };
-        });
-      }
-      location.href = 'hasil.html';
+      if (navigator.locks) navigator.locks.request('roomlink.submit', finish);
+      else finish();
     }, 1200);
+  }
+
+  function finish() {
+    let target = 'hasil.html';
+    update(st => {
+      if (st.session !== user.id) { target = 'masuk.html'; return; }
+      const slot = { roomId: room.id, date: draft.date, start: draft.start, end: draft.end };
+      const errors = validateSlot(slot);
+      if (Object.keys(errors).length) {
+        st.draft = draft;
+        st.flash = { message: Object.values(errors)[0] };
+        target = 'index.html';
+        return;
+      }
+      const at = nowLocal();
+      const res = submit(st.requests, { ...slot, userId: user.id, ...form, attendees: +form.attendees, createdAt: at }, nextRequestId(st.requests, new Date().getFullYear()));
+      if (res.conflict) {
+        st.draft = draft;
+        st.result = { type: 'bentrok', ...slot };
+      } else {
+        st.requests.push(res.request);
+        st.notifications.push(...buildNotifications('submitted', res.request, res.notify, { users: st.users, offset: st.notifications.length, at }));
+        st.draft = null;
+        st.result = { type: 'berhasil', requestId: res.request.id };
+      }
+    });
+    location.href = target;
   }
 
   render();
